@@ -4,6 +4,7 @@ extends Node2D
 var console_width: float = 20 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
+var invite_text = '  ~> '
 
 
 var COLORS = {

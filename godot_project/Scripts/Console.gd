@@ -6,8 +6,8 @@ var console_x: float
 var input_node: LineEdit
 
 var command_history = []
-
 var command_history_index
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,13 +17,18 @@ func _ready():
 	print("console ready (width %d)" % Singleton.console_width)
 	input_node = get_node("Input")
 	input_node.grab_focus()
-	input_node.set_position(Vector2(console_x, get_viewport().size.y - input_node.rect_size.y))
+	input_node.set_position(
+		Vector2(console_x + invite_len(),
+		get_viewport().size.y - input_node.rect_size.y - 7
+		))
 	input_node.rect_size.x = console_width
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_released("console_up"):
+		if len(command_history) == 0:
+			return
 		if command_history_index == -1:
 			command_history_index = len(command_history) - 1
 		else:
@@ -33,6 +38,8 @@ func _process(delta):
 
 		print("pressed up, index: %d" %command_history_index)
 	if Input.is_action_just_released("console_down"):
+		if len(command_history) == 0:
+			return
 		if command_history_index != -1:
 			if command_history_index == len(command_history) - 1:
 				input_node.text = ""
@@ -52,6 +59,7 @@ func _draw():
 		get_viewport().size.y)
 	draw_rect(console_rect, Singleton.console_color)
 	draw_console_history()
+	draw_invite()
 	#print("we are drawing lol")
 
 
@@ -94,9 +102,17 @@ func get_text(command: String) -> String:
 			return command.substr(len(key) + 1)
 	return command
 
+
 func draw_console_history():
 	var command_height: float = get_viewport().size.y - input_node.rect_size.y - Singleton.console_font.get_height()
 	for i in range(len(command_history)):
 		var command: String = command_history[len(command_history) - 1 - i]
-		draw_string(Singleton.console_font, Vector2(console_x, command_height), get_text(command), get_color(command))
+		draw_string(Singleton.console_font, Vector2(console_x + invite_len(), command_height), get_text(command), get_color(command))
 		command_height -= (Singleton.console_font.get_height() + 2)
+
+
+func invite_len() -> float:
+	return Singleton.console_font.get_string_size(Singleton.invite_text).x
+
+func draw_invite():
+	draw_string(Singleton.console_font, Vector2(console_x, get_viewport().size.y - Singleton.console_font.get_height() / 2), Singleton.invite_text)
