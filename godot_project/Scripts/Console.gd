@@ -41,8 +41,18 @@ func _on_Input_text_entered(new_text: String) -> void:
 	
 	command_history.append(new_text)
 	
-	if new_text.to_lower() == "exit":
+	var tlower: String = new_text.to_lower()
+	
+	if tlower == "exit":
 		Commands.command_exit()
+	elif tlower == "move up":
+		Commands.command_up() 
+	elif tlower == "move down":
+		Commands.command_down() 
+	elif tlower == "move left":
+		Commands.command_left() 
+	elif tlower == "move right":
+		Commands.command_right() 
 
 
 func draw_console_history():
