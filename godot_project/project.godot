@@ -11,6 +11,7 @@ config_version=4
 [application]
 
 config/name="GGJ23"
+run/main_scene="res://Scenes/MainScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -23,6 +24,7 @@ Commands="*res://Scripts/Commands.gd"
 window/size/width=1920
 window/size/height=1080
 window/size/resizable=false
+window/size/fullscreen=true
 
 [gui]
 
