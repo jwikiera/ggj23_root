@@ -1,10 +1,8 @@
-extends CollisionShape2D
+extends Element
 
+class_name PasswordFile
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+var password_content:String
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

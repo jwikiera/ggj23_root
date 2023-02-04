@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icons8-folder-64.png-7b0e5cd08cdd7a200430900c5579baec.stex"
+path="res://.import/icons8-folder-64.png-29247b4f6c379a812ddb4f509a87a56c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Folder/icons8-folder-64.png"
-dest_files=[ "res://.import/icons8-folder-64.png-7b0e5cd08cdd7a200430900c5579baec.stex" ]
+source_file="res://Elements/icons8-folder-64.png"
+dest_files=[ "res://.import/icons8-folder-64.png-29247b4f6c379a812ddb4f509a87a56c.stex" ]
 
 [params]
 
