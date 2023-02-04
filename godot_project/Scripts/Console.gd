@@ -83,7 +83,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 	
 	var tlower: String = new_text.to_lower()
 	var splitted_tlower = tlower.split(" ")
-	tlower = splitted_tlower[0]
+	#tlower = splitted_tlower[0]
 	var info1 = ""
 	if splitted_tlower.size()>1:
 		info1=splitted_tlower[1]

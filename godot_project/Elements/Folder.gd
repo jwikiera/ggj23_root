@@ -159,7 +159,7 @@ func print():
 
 
 func getElement(pos : Vector2)->Element:
-	print("Niveau : " + name_element)
+	#print("Niveau : " + name_element)
 	for i in range(children.size()):
 		if children[i].position_grid==pos:
 			return children[i]

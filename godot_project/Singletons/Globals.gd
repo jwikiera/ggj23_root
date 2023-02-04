@@ -16,7 +16,7 @@ var invite_text = '  ~> '
 var seed_ = 2023
 var has_greeted = false
 
-var _grid_margin = 10
+var _grid_margin = 12
 
 var passwords_dictionnary
 

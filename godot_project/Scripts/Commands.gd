@@ -36,6 +36,7 @@ func command_move_incomplete():
 	Globals.console.send_log("RED:Missing argument")
 
 func command_up():
+	print('doing command up')
 	if not Globals.com_enabled('move'):
 		command_not_available()
 		return
@@ -54,6 +55,7 @@ func command_left():
 	_send_move_signal(DIRS.DIR_LEFT)
 	
 func command_right():
+	#print('lolololo')
 	if not Globals.com_enabled('move'):
 		command_not_available()
 		return

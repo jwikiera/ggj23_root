@@ -38,7 +38,7 @@ var password_access:String
 var is_zipped : bool
 
 
-
+var has_been_compensated = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -48,7 +48,9 @@ func _ready():
 func set_position_in_grid(pos:Vector2):
 	GridUtils.scale_sprite_node(get_node("Sprite"), Globals.current_folder)
 	position = GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, pos)
-	#####GridUtils.compensate_scale_pos(get_node("Sprite"), Globals.current_folder)
+	if not has_been_compensated:
+		GridUtils.compensate_scale_pos(get_node("Sprite"), Globals.current_folder)
+		has_been_compensated = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -67,6 +69,7 @@ func Initialize(_parent, _position:Vector2, _type, _protection_level = Protectio
 	protection_level=_protection_level
 	password_access=_password
 	is_zipped=_is_zipped
+
 
 func setPosition(pos : Vector2):
 	position = pos

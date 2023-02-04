@@ -56,6 +56,8 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	
 	#placer joueur au bon endroit (étape 2 et fin)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
+	#GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
+	#GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	
 	print("Nombre de salle : " + str(Globals.get_nb_visited_folders()))
 
@@ -99,6 +101,7 @@ func _on_start_game_received():
 	Globals.player_coords = Vector2(int(Globals.current_folder.cell_amount_x / 2), int(Globals.current_folder.cell_amount_y / 2))
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
+	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 
 ###########################
