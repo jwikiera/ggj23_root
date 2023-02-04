@@ -2,10 +2,13 @@ extends KinematicBody2D
 
 var velocity: Vector2 = Vector2.ZERO
 var sprite_node: Sprite
+var texture1 = load("res://Assets/cursor_pink.png")
+var texture2 = load("res://Assets/cursor_pink_v2.png")
 
 func _ready():
 	print("Player ready")
 	sprite_node = get_node("Sprite")
+	sprite_node.texture = texture1
 	#move_to_grid_center()
 	#scale_self_to_grid()
 	#print(Globals.get_index_from_physical_coords(Vector2(500, 500)))
@@ -58,3 +61,9 @@ func get_self_center() -> Vector2:
 		self.get_position().x + sprite_size_x * sprite_node.scale.x,
 		self.get_position().y + sprite_size_y * sprite_node.scale.y
 	)
+	
+func toggle_texture():
+	if sprite_node.texture == texture1:
+		sprite_node.texture = texture2
+	else:
+		sprite_node.texture = texture1

@@ -57,3 +57,6 @@ func command_cd():
 		Globals.console.send_log("YELLOW:Not a directory")
 	#check si on peut l'ouvrir
 	
+	
+func command_toggle_cursor():
+	Globals.player.toggle_texture()

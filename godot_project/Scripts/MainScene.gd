@@ -77,8 +77,8 @@ func _on_move_signal(direction: int) -> void:
 
 func _draw():
 	draw_grid_lines()
-	draw_rect_at_index(Globals.current_folder, Vector2(0, 0))
-	draw_rect_at_index(Globals.current_folder, Vector2(5, 13))
+	#draw_rect_at_index(Globals.current_folder, Vector2(0, 0))
+	#draw_rect_at_index(Globals.current_folder, Vector2(5, 13))
 	
 	
 func draw_rect_at_index(folder: Folder, index: Vector2) -> void:
