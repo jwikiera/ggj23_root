@@ -7,6 +7,7 @@ var player_coords: Vector2
 var root:Folder # représente l'entièreté de la map
 var current_folder: Folder
 var timer_principal:float = 60 # en seconde
+var intro_music
 
 var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
@@ -15,6 +16,7 @@ var console_font_size = 30
 var invite_text = '  ~> '
 var seed_ = 2023
 var has_greeted = false
+var game_has_started = false
 
 var _grid_margin = 12
 
@@ -58,6 +60,7 @@ func _ready():
 	console_font.size = console_font_size
 	console = load("res://Scenes/Console.tscn").instance()
 	player = load("res://Player/Player.tscn").instance()
+	intro_music = load("res://Scenes/intro_music.tscn").instance()
 	#print(console_font.size)
 	root = load("res://Elements/Folder.tscn").instance()
 	root.Initialize(null, Vector2(0,0), Element.Type.FOLDER, Element.Protection.ROUGE, "password4")

@@ -72,7 +72,7 @@ func _draw():
 
 func _on_Input_text_entered(new_text: String) -> void:
 	command_history_index = -1
-	print("Console text entered: %s" % new_text)
+	#print("Console text entered: %s" % new_text)
 	if len(new_text) == 0:
 		return
 		
@@ -120,6 +120,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_toggle_shader()
 	elif tlower == "folder":
 		Commands.command_get_folder()
+	elif tlower == "skip":
+		Commands.command_skip()
 	else:
 		Commands.command_not_available()
 

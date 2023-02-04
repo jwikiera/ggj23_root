@@ -1,7 +1,6 @@
 extends Node2D
 
 
-var game_has_started = false
 
 func print_welcome():
 	yield(get_tree().create_timer(3.0), "timeout")
@@ -9,13 +8,14 @@ func print_welcome():
 		Globals.console.send_log("Welcome")
 	yield(get_tree().create_timer(2.0), "timeout")
 	if not Globals.has_greeted:
-		Globals.console.send_log("CYAN:You are at your own help")
+		Globals.console.send_log("CYAN:You are at your own 'help'")
 		Globals.has_greeted = true
 
 func _ready():
 	print("MainScene ready��")
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	seed(Globals.seed_)
+	add_child(Globals.intro_music)
 	add_child(Globals.console)
 	print_welcome()
 	Commands.connect("move", self, "_on_move_signal")
@@ -95,7 +95,7 @@ func _on_move_signal(direction: int) -> void:
 
 
 func _on_start_game_received():
-	game_has_started = true
+	Globals.game_has_started = true
 	
 	Globals.current_folder.initialize_scene(self)
 	add_child(Globals.player)
@@ -111,7 +111,7 @@ func _on_start_game_received():
 ###########################
 
 func _draw():
-	if game_has_started:
+	if Globals.game_has_started:
 		draw_grid_lines()
 	#draw_rect_at_index(Globals.current_folder, Vector2(0, 0))
 	#draw_rect_at_index(Globals.current_folder, Vector2(5, 13))
