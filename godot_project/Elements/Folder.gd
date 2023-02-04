@@ -6,45 +6,34 @@ class_name Folder
 
 var children: Array
 
-var cell_amount_x
-var cell_amount_y
+var position_grid_parent :Vector2 #position dans la grille en tant que parent
+
+var cell_amount_x =10
+var cell_amount_y =17
 
 var grid = []
 
-var player_coords: Vector2 
+
 var _cell_scene
 
 func _ready():
-	print("Folder scene loaded")
-	Commands.connect("move", self, "_on_move_signal")
-	cell_amount_x = 10
-	cell_amount_y = 17
-	player_coords = Vector2(int(cell_amount_x / 2), int(cell_amount_y / 2))
-	Globals.current_folder = self
-	add_child(Globals.console)
-	add_child(Globals.player)
-	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
-	Globals.player.scale_to_grid()
+	print("Folder scene loaded " + name_element)
+#
+#	cell_amount_x = 10
+#	cell_amount_y = 17
+#
+#	Globals.current_folder = self
+#	add_child(Globals.console)
+#	add_child(Globals.player)
+#	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
+#	Globals.player.scale_to_grid()
 	_cell_scene = load("res://Grid/Cell.tscn")
 	init_grid()
 	#print_grid_debug()
 
-func draw_rect_at_index(folder: Folder, index: Vector2) -> void:
-	var pos = GridUtils.get_physical_coords_of_grid_index(folder, index)
-	draw_rect(
-		Rect2(
-			pos.x,
-			pos.y,
-			10,
-			10	
-		),
-		Color(1, 0, 1)
-	)
-
 func _draw():
-	draw_grid_lines()
-	draw_rect_at_index(self, Vector2(0, 0))
-	draw_rect_at_index(self, Vector2(5, 13))
+	pass
+#	draw_grid_lines()
 	
 	
 #	var index = Vector2(int(Globals.grid_size_x / 2), int(Globals.grid_size_y / 2))
@@ -53,8 +42,7 @@ func _draw():
 
 #func fill_grid(grid):
 
-func _process(delta):
-	update()
+
 
 
 func init_grid():
@@ -71,27 +59,27 @@ func print_grid_debug():
 		for j in range(Globals.grid_size_x):
 			print(Globals.grid[i][j])
 
-func draw_grid_lines():
-	var x_size: float = GridUtils.get_grid_x_cell_size(self)
-	var y_size: float = GridUtils.get_grid_y_cell_size(self)
+
+
+
+func initialize_scene(node_source:Node2D):
+	print("Initialise scene " + name_element)
+	# place les parents et enfants dans la scène
+	if parent!=null:
+		node_source.add_child(parent)
+		parent.set_position_in_grid(parent.position_grid_parent)
 	
-	var i: int = 0 # y	
-	while i < cell_amount_y + 1:
-		draw_line(
-			Vector2(GridUtils.get_grid_pos_x(self), GridUtils.get_grid_pos_y(self) + i * y_size),
-			Vector2(GridUtils.get_grid_pos_x(self) + cell_amount_x * x_size, GridUtils.get_grid_pos_y(self) + i * y_size),
-			Globals.COLORS['WHITE']
-		)
-		i += 1
-		
-	var j: int = 0 # x
-	while j < cell_amount_x + 1:
-		draw_line(
-			Vector2(GridUtils.get_grid_pos_x(self) + j * x_size, GridUtils.get_grid_pos_y(self)),
-			Vector2(GridUtils.get_grid_pos_x(self) + j * x_size, GridUtils.get_grid_pos_y(self) + cell_amount_y * y_size),
-			Globals.COLORS['WHITE']
-		)
-		j += 1
+	for i in range(children.size()):
+		node_source.add_child(children[i])
+		children[i].set_position_in_grid(children[i].position_grid)
+
+func delete_scene(node_source:Node2D):
+	
+	if parent!=null:
+		node_source.remove_child(parent)
+	
+	for i in range(children.size()):
+		node_source.remove_child(children[i])
 
 
 ######################
@@ -102,7 +90,10 @@ func addChild(child):
 	children.append(child)
 
 func addPassword(_position:Vector2, _password_content, _protection_level=Element.Protection.JAUNE, _password_access="",  _is_zipped=false):
-		var child = PasswordFile.new()
+		
+		var scene_folder = load("res://Elements/PasswordFile.tscn")
+		var child = scene_folder.instance()
+		#var child = PasswordFile.new()
 			
 		child.Initialize(self,
 						_position,
@@ -114,7 +105,10 @@ func addPassword(_position:Vector2, _password_content, _protection_level=Element
 		children.append(child)
 	
 func addCheckpointFile(_position:Vector2, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
-		var child = CheckpointFile.new()
+
+		var scene_folder = load("res://Elements/CheckpointElement.tscn")
+		var child = scene_folder.instance()	
+		#var child = CheckpointElement.new()
 			
 		child.Initialize(self,
 						_position,
@@ -125,7 +119,10 @@ func addCheckpointFile(_position:Vector2, _protection_level=Element.Protection.J
 		children.append(child)
 
 func addCheckpointElement(_position:Vector2):
-		var child = CheckpointElement.new()
+	
+		var scene_folder = load("res://Elements/CheckpointElement.tscn")
+		var child = scene_folder.instance()	
+		#var child = CheckpointElement.new()
 			
 		child.Initialize(self,
 						_position,
@@ -133,7 +130,10 @@ func addCheckpointElement(_position:Vector2):
 		children.append(child)
 
 func addPriviledge(_position:Vector2, _priviledge_level, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
-		var child = PriviledgeFile.new()
+
+		var scene_folder = load("res://Elements/PriviledgeFile.tscn")
+		var child = scene_folder.instance()	
+		#var child = PriviledgeFile.new()
 			
 		child.Initialize(self,
 						_position,
@@ -143,6 +143,7 @@ func addPriviledge(_position:Vector2, _priviledge_level, _protection_level=Eleme
 						_is_zipped)
 		child.priviledge_level = _priviledge_level
 		children.append(child)
+
 
 ######################
 # ACCESSEURS BASIQUE #
@@ -156,10 +157,10 @@ func print():
 
 func getElement(pos : Vector2)->Element:
 	for i in range(children.size()):
-		if children[i].position==pos:
+		if children[i].position_grid==pos:
 			return children[i]
 	
-	if parent.position==pos:
+	if parent!=null and parent.position_grid_parent==pos:
 		return parent
 	
 	return null
@@ -171,35 +172,7 @@ func lastChildren()->Element:
 	return null
 
 
-func _on_move_signal(direction: int) -> void:
-	if direction == Commands.DIRS.DIR_UP:
-		if player_coords.y == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
-		else:
-			player_coords.y -= 1
-			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
-			Globals.player.scale_to_grid()
-	if direction == Commands.DIRS.DIR_DOWN:
-		if player_coords.y == cell_amount_y - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
-		else:
-			player_coords.y += 1
-			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
-			Globals.player.scale_to_grid()
-	if direction == Commands.DIRS.DIR_LEFT:
-		if player_coords.x == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
-		else:
-			player_coords.x -= 1
-			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
-			Globals.player.scale_to_grid()
-	if direction == Commands.DIRS.DIR_RIGHT:
-		if player_coords.x == cell_amount_x - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
-		else:
-			player_coords.x += 1
-			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(self, player_coords))
-			Globals.player.scale_to_grid()
+
 		
 #	if direction == Commands.DIRS.DIR_UP:
 #		velocity.y = -64

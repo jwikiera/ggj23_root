@@ -8,8 +8,8 @@ var name_element : String
 # Dossier parent
 var parent
 
-# position dans la grille (unité : case)
-#var position : Vector2
+# position dans la grille (unité : case) en tant qu'enfant
+var position_grid : Vector2
 
 # type de l'élément
 enum Type{
@@ -43,7 +43,12 @@ var is_zipped : bool
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
+
+func set_position_in_grid(pos:Vector2):
+	GridUtils.scale_sprite_node(get_node("Sprite"), Globals.current_folder)
+	position = GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, pos)
+	GridUtils.compensate_scale_pos(get_node("Sprite"), Globals.current_folder)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -56,7 +61,8 @@ func Initialize(_parent, _position:Vector2, _type, _protection_level = Protectio
 		name_element=parent.name_element + "/"+ Type.keys()[_type] +"_" + str(parent.children.size())
 	else:
 		name_element="root"
-	position=_position
+	name=name_element
+	position_grid = _position
 	type=_type
 	protection_level=_protection_level
 	password_access=_password

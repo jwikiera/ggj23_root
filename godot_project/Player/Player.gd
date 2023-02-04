@@ -4,6 +4,7 @@ var velocity: Vector2 = Vector2.ZERO
 var sprite_node: Sprite
 
 func _ready():
+	print("Player ready")
 	sprite_node = get_node("Sprite")
 	#move_to_grid_center()
 	#scale_self_to_grid()

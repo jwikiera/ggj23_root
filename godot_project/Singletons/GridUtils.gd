@@ -73,3 +73,20 @@ func get_index_from_physical_coords(folder: Folder, coords: Vector2) -> Vector2:
 		int(floor((coords.x - get_grid_pos_x(folder)) / get_grid_x_cell_size(folder))) - 1,
 		int(floor((coords.y - get_grid_pos_y(folder)) / get_grid_y_cell_size(folder))) - 1
 	)
+	
+func scale_sprite_node(node: Sprite, folder: Folder):
+	if !node.texture:
+		print(node.name)
+		return
+	var sprite_size: int = node.texture.get_width()
+	var ratio: float = float(sprite_size) / GridUtils.get_grid_x_cell_size(Globals.current_folder)
+	node.scale.x = 1 / ratio
+	node.scale.y = 1 / ratio
+	
+func compensate_scale_pos(node: Sprite, folder: Folder):
+	var sprite_size: int = node.texture.get_width()
+	var last_pos: Vector2 = node.get_position()
+	#print("ratio: %f" % ratio)
+	last_pos.x -= (float(sprite_size) - GridUtils.get_grid_x_cell_size(Globals.current_folder)) / 2
+	last_pos.y -= (float(sprite_size) - GridUtils.get_grid_x_cell_size(Globals.current_folder)) / 2
+	node.set_position(last_pos)
