@@ -48,7 +48,7 @@ func _ready():
 func set_position_in_grid(pos:Vector2):
 	GridUtils.scale_sprite_node(get_node("Sprite"), Globals.current_folder)
 	position = GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, pos)
-	GridUtils.compensate_scale_pos(get_node("Sprite"), Globals.current_folder)
+	#####GridUtils.compensate_scale_pos(get_node("Sprite"), Globals.current_folder)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

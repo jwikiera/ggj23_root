@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 var velocity: Vector2 = Vector2.ZERO
 var sprite_node: Sprite
+var texture1 = load("res://Assets/cursor_pink.png")
+var texture2 = load("res://Assets/cursor_pink_v2.png")
 
 var list_passwords : Array
 var nb_checkpoints : int
@@ -10,6 +12,7 @@ var priviledge_level = Element.Protection.JAUNE
 func _ready():
 	print("Player ready")
 	sprite_node = get_node("Sprite")
+	sprite_node.texture = texture1
 	list_passwords = []
 	
 	#move_to_grid_center()
@@ -64,6 +67,12 @@ func get_self_center() -> Vector2:
 		self.get_position().x + sprite_size_x * sprite_node.scale.x,
 		self.get_position().y + sprite_size_y * sprite_node.scale.y
 	)
+	
+func toggle_texture():
+	if sprite_node.texture == texture1:
+		sprite_node.texture = texture2
+	else:
+		sprite_node.texture = texture1
 
 func add_password(pw:String):
 	list_passwords.append(pw)

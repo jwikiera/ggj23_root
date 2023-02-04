@@ -90,13 +90,16 @@ func _on_Input_text_entered(new_text: String) -> void:
 	elif tlower == "move right":
 		Commands.command_right()
 	elif tlower == "cd":
-		Commands.command_cd() 
+		Commands.command_cd()
+	elif tlower == "cursor":
+		Commands.command_toggle_cursor()
 	elif tlower == "passwords":
 		Commands.command_passwords()
 	elif tlower == "unzip":
 		Commands.command_unzip()
 	elif tlower == "download":
 		Commands.command_download()
+
 
 func get_color(command: String) -> Color:
 	for key in Globals.COLORS.keys():

@@ -89,3 +89,6 @@ func command_cd():
 		#pas sur un dossier
 		Globals.console.send_log("YELLOW:Not a directory")
 	
+	
+func command_toggle_cursor():
+	Globals.player.toggle_texture()
