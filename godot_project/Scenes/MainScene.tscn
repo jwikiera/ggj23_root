@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/icon.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/crt_shader.gd" type="Script" id=3]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -63,24 +63,24 @@ shader_type canvas_item;
 uniform bool overlay = true;
 
 uniform float scanlines_opacity : hint_range(0.0, 1.0) = 0.1;
-uniform float scanlines_width : hint_range(0.0, 0.5) = 0.05;
+uniform float scanlines_width : hint_range(0.0, 0.5) = 0.15;
 uniform float grille_opacity : hint_range(0.0, 1.0) = 0.01;
 uniform vec2 resolution = vec2(640.0, 480.0); // Set the number of rows and columns the texture will be divided in. Scanlines and grille will make a square based on these values
 
 uniform bool pixelate = false; // Fill each square (\"pixel\") with a sampled color, creating a pixel look and a more accurate representation of how a CRT monitor would work.
 
 uniform bool roll = true;
-uniform float roll_speed = 0.5; // Positive values are down, negative are up
-uniform float roll_size : hint_range(0.0, 100.0) = 30.0;
-uniform float roll_variation : hint_range(0.1, 5.0) = 0.3; // This valie is not an exact science. You have to play around with the value to find a look you like. How this works is explained in the code below.
-uniform float distort_intensity : hint_range(0.0, 0.2) = 0; // The distortion created by the rolling effect.
+uniform float roll_speed = 0.7; // Positive values are down, negative are up
+uniform float roll_size : hint_range(0.0, 100.0) = 40.0;
+uniform float roll_variation : hint_range(0.1, 5.0) = 0.7; // This valie is not an exact science. You have to play around with the value to find a look you like. How this works is explained in the code below.
+uniform float distort_intensity : hint_range(0.0, 0.2) = 0.005; // The distortion created by the rolling effect.
 
 uniform float noise_opacity : hint_range(0.0, 1.0) = 0.1;
 uniform float noise_speed = 5.0; // There is a movement in the noise pattern that can be hard to see first. This sets the speed of that movement.
 
-uniform float static_noise_intensity : hint_range(0.0, 1.0) = 0.03;
+uniform float static_noise_intensity : hint_range(0.0, 1.0) = 0.06;
 
-uniform float aberration : hint_range(-1.0, 1.0) = 0.001; // Chromatic aberration, a distortion on each color channel.
+uniform float aberration : hint_range(-1.0, 1.0) = 0.004; // Chromatic aberration, a distortion on each color channel.
 uniform float brightness = 1.4; // When adding scanline gaps and grille the image can get very dark. Brightness tries to compensate for that.
 uniform bool discolor = true; // Add a discolor effect simulating a VHS
 
@@ -276,19 +276,19 @@ void fragment()
 shader = SubResource( 4 )
 shader_param/overlay = true
 shader_param/scanlines_opacity = 0.1
-shader_param/scanlines_width = 0.05
+shader_param/scanlines_width = 0.15
 shader_param/grille_opacity = 0.01
 shader_param/resolution = Vector2( 640, 480 )
 shader_param/pixelate = false
 shader_param/roll = true
-shader_param/roll_speed = 0.5
-shader_param/roll_size = 30.0
-shader_param/roll_variation = 0.3
-shader_param/distort_intensity = 0.0
+shader_param/roll_speed = 0.7
+shader_param/roll_size = 40.0
+shader_param/roll_variation = 0.7
+shader_param/distort_intensity = 0.005
 shader_param/noise_opacity = 0.1
 shader_param/noise_speed = 5.0
-shader_param/static_noise_intensity = 0.03
-shader_param/aberration = 0.001
+shader_param/static_noise_intensity = 0.06
+shader_param/aberration = 0.004
 shader_param/brightness = 1.4
 shader_param/discolor = true
 shader_param/warp_amount = 0.3
@@ -298,11 +298,6 @@ shader_param/vignette_opacity = 0.5
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 1 )
-
-[node name="Icon" type="Sprite" parent="."]
-visible = false
-position = Vector2( 113, 162 )
-texture = ExtResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
@@ -315,6 +310,7 @@ texture = ExtResource( 2 )
 expand = true
 
 [node name="crt_shader" type="CanvasLayer" parent="."]
+script = ExtResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="crt_shader"]
 material = SubResource( 5 )

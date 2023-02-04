@@ -5,6 +5,8 @@ signal move(direction)
 signal change_dir(folder, is_parent)
 signal unzip(folder)
 signal download(element)
+signal start_game()
+signal toggle_shader()
 
 const DIRS = {
 	DIR_UP = 0,
@@ -17,23 +19,44 @@ const DIRS = {
 func _ready():
 	pass # Replace with function body.
 
+func command_not_available():
+	Globals.console.send_log("RED:Command not found or unavailable")
+
 func command_exit():
 	print("Command exit")
 	get_tree().quit()
 
 func _send_move_signal(direction: int):
 	emit_signal("move", direction)
-	
+
+func command_move_incomplete():
+	if not Globals.com_enabled('move'):
+		command_not_available()
+		return
+	Globals.console.send_log("RED:Missing argument")
+
 func command_up():
+	if not Globals.com_enabled('move'):
+		command_not_available()
+		return
 	_send_move_signal(DIRS.DIR_UP)
 	
 func command_down():
+	if not Globals.com_enabled('move'):
+		command_not_available()
+		return
 	_send_move_signal(DIRS.DIR_DOWN)
 	
 func command_left():
+	if not Globals.com_enabled('move'):
+		command_not_available()
+		return
 	_send_move_signal(DIRS.DIR_LEFT)
 	
 func command_right():
+	if not Globals.com_enabled('move'):
+		command_not_available()
+		return
 	_send_move_signal(DIRS.DIR_RIGHT)
 	
 func command_unzip():
@@ -67,6 +90,9 @@ func command_passwords():
 		Globals.console.send_log("YELLOW:<No known passwords>")
 	
 func command_cd():
+	if not Globals.com_enabled('cd'):
+		command_not_available()
+		return
 	#Globals.console.send_log("CD @ (%d, %d)" % [Globals.player_coords.x, Globals.player_coords.y])
 	#check s'il y a un dossier à la pos du joueur
 	var element = Globals.current_folder.getElement(Globals.player_coords)
@@ -92,3 +118,44 @@ func command_cd():
 	
 func command_toggle_cursor():
 	Globals.player.toggle_texture()
+	
+func command_boot():
+	if not Globals.com_enabled('boot'):
+		command_not_available()
+		return
+	if not Globals.has_greeted:
+		Globals.console.send_log("You know what this is about, don't you?")
+		Globals.has_greeted = true
+	Globals.disable_command('boot')
+	yield(get_tree().create_timer(1.0), "timeout")
+	Globals.console.send_log('...')
+	yield(get_tree().create_timer(0.5), "timeout")
+	Globals.console.send_log('Booting main system')
+	yield(get_tree().create_timer(0.3), "timeout")
+	Globals.console.send_log('Seed estimate %d' % Globals.seed_)
+	yield(get_tree().create_timer(0.7), "timeout")
+	Globals.console.send_log('Init complete')
+	Globals.enable_command('engage')
+	
+func command_engage():
+	if not Globals.com_enabled('engage'):
+		command_not_available()
+		return
+	Globals.disable_command('engage')
+	yield(get_tree().create_timer(0.2), "timeout")
+	Globals.console.send_log('...')
+	yield(get_tree().create_timer(0.4), "timeout")
+	Globals.console.send_log('Connection with sytem established')
+	Globals.enable_command('cd')
+	Globals.enable_command('move')
+	emit_signal("start_game")
+	
+func command_toggle_shader():
+	emit_signal("toggle_shader")
+
+func command_help():
+	var res = 'List of commands:'
+	for command in Globals.get_commands():
+		if Globals.com_enabled(command):
+			res += '\n   * ' + command
+	Globals.console.send_log(res)

@@ -1,30 +1,26 @@
 extends Node2D
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var game_has_started = false
 
-# Called when the node enters the scene tree for the first time.
+func print_welcome():
+	yield(get_tree().create_timer(3.0), "timeout")
+	if not Globals.has_greeted:
+		Globals.console.send_log("Welcome")
+		yield(get_tree().create_timer(2.0), "timeout")
+		Globals.console.send_log("CYAN:You are at your own help")
+		Globals.has_greeted = true
+
 func _ready():
-	print("MainScene ready")
-	seed(2023)
-	
+	print("MainScene ready��")
+	seed(Globals.seed_)
+	add_child(Globals.console)
+	print_welcome()
 	Commands.connect("move", self, "_on_move_signal")
 	Commands.connect("change_dir", self, "_on_change_dir_signal")
-
-	#var folder_ = load("res://Elements/Folder.tscn")
-	#var folder = folder_.instance()
+	Commands.connect("start_game", self, "_on_start_game_received")
 	
-	Globals.current_folder.initialize_scene(self)
-	add_child(Globals.console)
-	add_child(Globals.player)
-	
-	Globals.player_coords = Vector2(int(Globals.current_folder.cell_amount_x / 2), int(Globals.current_folder.cell_amount_y / 2))
-	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
-	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
-	
+		
 
 func _process(delta):
 	update()
@@ -85,12 +81,24 @@ func _on_move_signal(direction: int) -> void:
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 
 
+func _on_start_game_received():
+	game_has_started = true
+	
+	Globals.current_folder.initialize_scene(self)
+	add_child(Globals.player)
+	
+	Globals.player_coords = Vector2(int(Globals.current_folder.cell_amount_x / 2), int(Globals.current_folder.cell_amount_y / 2))
+	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
+	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
+	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
+
 ###########################
 # DRAWING
 ###########################
 
 func _draw():
-	draw_grid_lines()
+	if game_has_started:
+		draw_grid_lines()
 	#draw_rect_at_index(Globals.current_folder, Vector2(0, 0))
 	#draw_rect_at_index(Globals.current_folder, Vector2(5, 13))
 	

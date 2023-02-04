@@ -85,6 +85,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 	
 	if tlower == "exit":
 		Commands.command_exit()
+	elif tlower == "move":
+		Commands.command_move_incomplete()
 	elif tlower == "move up":
 		Commands.command_up() 
 	elif tlower == "move down":
@@ -103,6 +105,16 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_unzip()
 	elif tlower == "download":
 		Commands.command_download()
+	elif tlower == 'help':
+		Commands.command_help()
+	elif tlower == 'boot':
+		Commands.command_boot()
+	elif tlower == 'engage':
+		Commands.command_engage()
+	elif tlower == 'shader':
+		Commands.command_toggle_shader()
+	else:
+		Commands.command_not_available()
 
 
 func get_color(command: String) -> Color:
@@ -133,4 +145,6 @@ func draw_invite():
 	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 3), Globals.invite_text)
 	
 func send_log(log_text: String):
-	message_history.append(log_text)
+	var messages = log_text.split('\n')
+	for msg in messages:
+		message_history.append(msg)

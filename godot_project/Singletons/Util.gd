@@ -18,4 +18,3 @@ func randint(min_: int, max_: int) -> int:
 	noise.persistence = 0.8
 	var randfloat = noise.get_noise_1d(1)
 	return int(randfloat * max_ + 1)
-

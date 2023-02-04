@@ -8,12 +8,13 @@ var root:Folder # représente l'entièreté de la map
 var current_folder: Folder
 var timer_principal:float = 60 # en seconde
 
-var _console_width: float = 20 #(percentage)
+var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
 var console_font_size = 30
 var invite_text = '  ~> '
-var seed_ = 'ibib3fi3b'
+var seed_ = 2023
+var has_greeted = false
 
 #var grid = []
 #var grid_size_x = 30
@@ -22,12 +23,32 @@ var _grid_margin = 10
 
 
 var COLORS = {
-	"RED": Color(1, 0, 0),
+	"RED": Color('#D45769'),
 	"GREEN": Color(0, 1, 0),
-	"YELLOW": Color(1, 1, 0),
+	"YELLOW": Color('#E69D45'),
+	"CYAN": Color('#30B695'),
 	"WHITE": Color(1, 1, 1)
 }
 
+var _commands = {
+	'boot':  true,
+	'engage': false,
+	'move': false,
+	'cd': false,
+	'exit': true
+}
+
+func get_commands():
+	return _commands.keys()
+
+func enable_command(command: String) -> void:
+	_commands[command] = true
+	
+func disable_command(command: String) -> void:
+	_commands[command] = false
+	
+func com_enabled(command: String) -> bool:
+	return _commands[command]
 
 func _ready():
 	print("Globals ready")
@@ -48,7 +69,6 @@ func _ready():
 
 func _process(delta):
 	timer_principal -= delta
-	print(Globals.print_timer())
 	
 	if timer_principal<=0:
 		game_over()
