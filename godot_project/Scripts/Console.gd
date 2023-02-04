@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var console_width: float
+
 var console_x: float
 var input_node: LineEdit
 
@@ -11,24 +11,19 @@ var command_history_index
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var test : int = 0
-	var a = 'a'
-	var b = 'b'
-	print("%d" % Util.randint(0, 100))
-	print("%d" % Util.randint(0, 100))
-	print("%d" % Util.randint(0, 100))
-	print("%d" % Util.randint(0, 100))
 	command_history_index = 0
-	console_width = get_viewport().size.x / 100 * Singleton.console_width
-	console_x = get_viewport().size.x - console_width
-	print("console ready (width %d)" % Singleton.console_width)
+	console_x = get_viewport().size.x - Globals.get_console_width()
+	print("console ready (width %d)" % Globals.get_console_width())
 	input_node = get_node("Input")
 	input_node.grab_focus()
 	input_node.set_position(
 		Vector2(console_x + invite_len(),
-		get_viewport().size.y - input_node.rect_size.y - 7
+		get_viewport().size.y - input_node.rect_size.y - 13
 		))
-	input_node.rect_size.x = console_width
+	input_node.rect_size.x = Globals.get_console_width()
+	var font = input_node.get_font("Calculator")
+	font.size = 25 #Globals.console_font_size
+	input_node.add_font_override("string_name", font)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,9 +57,9 @@ func _draw():
 	var console_rect = Rect2(
 		console_x,
 		0,
-		console_width,
+		Globals.get_console_width(),
 		get_viewport().size.y)
-	draw_rect(console_rect, Singleton.console_color)
+	draw_rect(console_rect, Globals.console_color)
 	draw_console_history()
 	draw_invite()
 	#print("we are drawing lol")
@@ -98,28 +93,28 @@ func _on_Input_text_entered(new_text: String) -> void:
 		command_history.append(new_text)
 
 func get_color(command: String) -> Color:
-	for key in Singleton.COLORS.keys():
+	for key in Globals.COLORS.keys():
 		if command.begins_with(key + ':'):
-			return Singleton.COLORS[key]
+			return Globals.COLORS[key]
 	return Color(1, 1, 1)
 	
 func get_text(command: String) -> String:
-	for key in Singleton.COLORS.keys():
+	for key in Globals.COLORS.keys():
 		if command.begins_with(key + ':'):
 			return command.substr(len(key) + 1)
 	return command
 
 
 func draw_console_history():
-	var command_height: float = get_viewport().size.y - input_node.rect_size.y - Singleton.console_font.get_height()
+	var command_height: float = get_viewport().size.y - input_node.rect_size.y - Globals.console_font.get_height()
 	for i in range(len(command_history)):
 		var command: String = command_history[len(command_history) - 1 - i]
-		draw_string(Singleton.console_font, Vector2(console_x + invite_len(), command_height), get_text(command), get_color(command))
-		command_height -= (Singleton.console_font.get_height() + 2)
+		draw_string(Globals.console_font, Vector2(console_x + invite_len(), command_height), get_text(command), get_color(command))
+		command_height -= (Globals.console_font.get_height() + 2)
 
 
 func invite_len() -> float:
-	return Singleton.console_font.get_string_size(Singleton.invite_text).x
+	return Globals.console_font.get_string_size(Globals.invite_text).x
 
 func draw_invite():
-	draw_string(Singleton.console_font, Vector2(console_x, get_viewport().size.y - Singleton.console_font.get_height() / 2), Singleton.invite_text)
+	draw_string(Globals.console_font, Vector2(console_x, get_viewport().size.y - Globals.console_font.get_height() / 2), Globals.invite_text)

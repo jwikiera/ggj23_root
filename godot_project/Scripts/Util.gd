@@ -11,6 +11,11 @@ func str_to_int(str_: String) -> int:
 
 
 func randint(min_: int, max_: int) -> int:
-	var randfloat = Singleton.noise.get_noise_2d(min_, max_)
+	var noise = OpenSimplexNoise.new()
+	noise.seed = str_to_int(Globals.seed_)
+	noise.octaves = 5
+	noise.period = 0.5
+	noise.persistence = 0.8
+	var randfloat = noise.get_noise_1d(1)
 	return int(randfloat * max_ + 1)
 
