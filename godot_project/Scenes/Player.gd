@@ -23,7 +23,6 @@ func _physics_process(delta):
 
 
 func _on_move_signal(direction: int) -> void:
-	print("received signal!")
 	if direction == Commands.DIRS.DIR_UP:
 		velocity.y = -64
 	if direction == Commands.DIRS.DIR_DOWN:

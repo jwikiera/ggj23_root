@@ -11,6 +11,13 @@ var command_history_index
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var test : int = 0
+	var a = 'a'
+	var b = 'b'
+	print("%d" % Util.randint(0, 100))
+	print("%d" % Util.randint(0, 100))
+	print("%d" % Util.randint(0, 100))
+	print("%d" % Util.randint(0, 100))
 	command_history_index = 0
 	console_width = get_viewport().size.x / 100 * Singleton.console_width
 	console_x = get_viewport().size.x - console_width

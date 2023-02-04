@@ -8,6 +8,46 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Element",
+"class": "CheckpointElement",
+"language": "GDScript",
+"path": "res://Elements/CheckpointElement.gd"
+}, {
+"base": "Element",
+"class": "CheckpointFile",
+"language": "GDScript",
+"path": "res://Elements/CheckpointFile.gd"
+}, {
+"base": "Node",
+"class": "Element",
+"language": "GDScript",
+"path": "res://Elements/Element.gd"
+}, {
+"base": "Node",
+"class": "Folder",
+"language": "GDScript",
+"path": "res://Elements/Folder.gd"
+}, {
+"base": "Element",
+"class": "PasswordFile",
+"language": "GDScript",
+"path": "res://Elements/PasswordFile.gd"
+}, {
+"base": "Element",
+"class": "PriviledgeFile",
+"language": "GDScript",
+"path": "res://Elements/PriviledgeFile.gd"
+} ]
+_global_script_class_icons={
+"CheckpointElement": "",
+"CheckpointFile": "",
+"Element": "",
+"Folder": "",
+"PasswordFile": "",
+"PriviledgeFile": ""
+}
+
 [application]
 
 config/name="GGJ23"
@@ -18,6 +58,7 @@ config/icon="res://icon.png"
 
 Singleton="*res://Singletons/Singleton.tscn"
 Commands="*res://Scripts/Commands.gd"
+Util="*res://Scripts/Util.gd"
 
 [display]
 
