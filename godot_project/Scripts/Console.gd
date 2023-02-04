@@ -100,7 +100,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_left() 
 	elif tlower == "move right":
 		Commands.command_right()
-	elif tlower == "cd":
+	elif tlower.begins_with("cd"):
 		Commands.command_cd(info1)
 	elif tlower == "cursor":
 		Commands.command_toggle_cursor()
