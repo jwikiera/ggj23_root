@@ -2,7 +2,7 @@ extends Node
 
 
 signal move(direction)
-signal change_dir(folder)
+signal change_dir(folder, is_parent)
 
 const DIRS = {
 	DIR_UP = 0,
@@ -35,15 +35,16 @@ func command_right():
 	_send_move_signal(DIRS.DIR_RIGHT)
 	
 func command_cd():
-	Globals.console.send_log("CD @ (%d, %d)" % [Globals.player_coords.x, Globals.player_coords.y])
+	#Globals.console.send_log("CD @ (%d, %d)" % [Globals.player_coords.x, Globals.player_coords.y])
 	#check s'il y a un dossier à la pos du joueur
 	var element = Globals.current_folder.getElement(Globals.player_coords)
+	print(element)
 	if element!=null and element.type==Element.Type.FOLDER:
 		if true:#check privilèges
 			if true:#check mot de passe
 				if true: #zip
 					#si ok, changer de folder
-					emit_signal("change_dir", element.parent)
+					emit_signal("change_dir", element, element==Globals.current_folder.parent)
 					Globals.console.send_log("YELLOW:Changed directory")
 				else:
 					Globals.console.send_log("YELLOW:Unzip before accessing")
@@ -55,5 +56,4 @@ func command_cd():
 	else:
 		#pas sur un dossier
 		Globals.console.send_log("YELLOW:Not a directory")
-	#check si on peut l'ouvrir
 	
