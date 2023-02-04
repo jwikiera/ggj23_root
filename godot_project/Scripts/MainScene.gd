@@ -7,7 +7,8 @@ func print_welcome():
 	yield(get_tree().create_timer(3.0), "timeout")
 	if not Globals.has_greeted:
 		Globals.console.send_log("Welcome")
-		yield(get_tree().create_timer(2.0), "timeout")
+	yield(get_tree().create_timer(2.0), "timeout")
+	if not Globals.has_greeted:
 		Globals.console.send_log("CYAN:You are at your own help")
 		Globals.has_greeted = true
 
