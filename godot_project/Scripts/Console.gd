@@ -19,9 +19,13 @@ func _ready():
 		get_viewport().size.y - input_node.rect_size.y - 13
 		))
 	input_node.rect_size.x = Globals.get_console_width()
-	var font = input_node.get_font("Calculator")
-	font.size = 25 #Globals.console_font_size
-	input_node.add_font_override("string_name", font)
+	#var font = input_node.get_font("Calculator")
+	#font.size = Globals.console_font_size
+	#input_node.add_font_override("string_name", font)
+#	print(Globals.console_font)
+#	input_node.theme.set_default_font(Globals.console_font)
+#	input_node.theme.set_font("lol", "Dynamic", Globals.console_font)
+	input_node.add_font_override("font", Globals.console_font)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -126,7 +130,7 @@ func invite_len() -> float:
 	return Globals.console_font.get_string_size(Globals.invite_text).x
 
 func draw_invite():
-	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 2), Globals.invite_text)
+	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 3), Globals.invite_text)
 	
 func send_log(log_text: String):
 	message_history.append(log_text)

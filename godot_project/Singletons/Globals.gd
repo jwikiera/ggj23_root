@@ -11,7 +11,7 @@ var current_folder: Folder
 var _console_width: float = 20 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
-var console_font_size = 26
+var console_font_size = 30
 var invite_text = '  ~> '
 var seed_ = 'ibib3fi3b'
 
@@ -32,7 +32,7 @@ var COLORS = {
 func _ready():
 	print("Globals ready")
 	console_font = DynamicFont.new()
-	console_font.font_data = load("res://Fonts/Calculator.ttf")
+	console_font.font_data = load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
 	console = load("res://Scenes/Console.tscn").instance()
 	player = load("res://Player/Player.tscn").instance()

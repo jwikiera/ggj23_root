@@ -9,7 +9,6 @@
 [sub_resource type="StyleBoxEmpty" id=3]
 
 [resource]
-default_font = ExtResource( 1 )
 LineEdit/colors/clear_button_color = Color( 0, 0, 0, 1 )
 LineEdit/colors/clear_button_color_pressed = Color( 0, 0, 0, 1 )
 LineEdit/colors/cursor_color = Color( 1, 1, 1, 1 )
