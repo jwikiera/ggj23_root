@@ -25,8 +25,8 @@ var COLORS = {
 	"RED": Color('#D45769'),
 	"GREEN": Color(0, 1, 0),
 	"YELLOW": Color('#E69D45'),
-	"CYAN": Color('#30B695'),
-	"WHITE": Color(1, 1, 1)
+	"CYAN": Color('#308695'),
+	"WHITE": Color('#D4CFC9')
 }
 
 
@@ -35,6 +35,12 @@ var _commands = {
 	'engage': false,
 	'move': false,
 	'cd': false,
+	'download': false,
+	'passwords':false,
+	'unzip':false,
+	'checkpoint': false,
+	'pause':false,
+	'play':false,
 	'exit': true
 }
 
@@ -169,7 +175,7 @@ func generate_sous_dossier(dossier, level:int=8):
 	elif level==5:
 		# DOSSIER 1 (TUTO CHECKPOINT)
 		addFolder(dossier, Vector2(0,0))
-		#dossier.lastChildren().addTuto(<Checkpoint>)
+		#dossier.lastChildren().addTuto(Vector2(0,0), 'checkpoint', "")
 		
 		# DOSSIER 2 (Vide )
 		addFolder(dossier, Vector2(0,0))
@@ -184,13 +190,14 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
+		#dossier.lastChildren().addTuto(Vector2(0,0), 'unzip', "")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==4:
 		# DOSSIER 1 (Privilège orange)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ORANGE)
-		#dossier.lastChildren().addTuto(<Priviledge>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "You can access more folders with higher privileges")
 		
 		# DOSSIER 2 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
@@ -202,7 +209,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 4 (Tuto back)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
-		#dossier.lastChildren().addTuto(<Back>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Go through commands history with KEY_UP and KEY_DOWN")
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0))
@@ -212,6 +219,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		# DOSSIER 1 (Password)
 		addFolder(dossier, Vector2(0,0))
 		dossier.lastChildren().addPassword(Vector2(0,0), "password1" )
+		dossier.lastChildren().addTuto(Vector2(0,0), 'passwords', "")
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))

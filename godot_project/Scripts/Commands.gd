@@ -80,6 +80,13 @@ func command_download():
 		Globals.player.add_privilege(element.priviledge_level)
 		Globals.console.send_log("YELLOW:Privilege added")
 		element.delete()
+	elif element!=null and element.type==Element.Type.TUTO:
+		if element.command!='':
+			Globals.console.send_log("YELLOW:New command learned: "+element.command)
+			Globals.enable_command(element.command)
+		if element.explanation!="":
+			Globals.console.send_log("CYAN:New command learned: "+element.explanation)
+		element.delete()
 	else:
 		#pas sur un dossier
 		Globals.console.send_log("RED:Not a file")
@@ -160,6 +167,7 @@ func command_engage():
 	Globals.console.send_log('Connection with sytem established')
 	Globals.enable_command('cd')
 	Globals.enable_command('move')
+	Globals.enable_command('download')
 	emit_signal("start_game")
 	
 func command_toggle_shader():

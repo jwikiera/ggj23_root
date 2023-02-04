@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "PriviledgeFile",
 "language": "GDScript",
 "path": "res://Elements/PriviledgeFile.gd"
+}, {
+"base": "Element",
+"class": "TutoFile",
+"language": "GDScript",
+"path": "res://Elements/TutoFile.gd"
 } ]
 _global_script_class_icons={
 "CheckpointElement": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "Element": "",
 "Folder": "",
 "PasswordFile": "",
-"PriviledgeFile": ""
+"PriviledgeFile": "",
+"TutoFile": ""
 }
 
 [application]

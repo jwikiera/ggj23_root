@@ -105,6 +105,7 @@ func addPassword(_position:Vector2, _password_content, _protection_level=Element
 						_password_access,
 						_is_zipped)
 		child.password_content=_password_content
+		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 	
 func addCheckpointFile(_position:Vector2, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
@@ -119,6 +120,7 @@ func addCheckpointFile(_position:Vector2, _protection_level=Element.Protection.J
 						_protection_level,
 						_password,
 						_is_zipped)
+		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 
 func addCheckpointElement(_position:Vector2):
@@ -130,6 +132,7 @@ func addCheckpointElement(_position:Vector2):
 		child.Initialize(self,
 						_position,
 						Element.Type.CHECKPOINT_ELEMENT)
+		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 
 func addPriviledge(_position:Vector2, _priviledge_level, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
@@ -145,8 +148,25 @@ func addPriviledge(_position:Vector2, _priviledge_level, _protection_level=Eleme
 						_password,
 						_is_zipped)
 		child.priviledge_level = _priviledge_level
+		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 
+func addTuto(_position:Vector2, command, explanation:String, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
+
+		var scene_folder = load("res://Elements/TutoFile.tscn")
+		var child = scene_folder.instance()	
+		#var child = PriviledgeFile.new()
+			
+		child.Initialize(self,
+						_position,
+						Element.Type.TUTO,
+						_protection_level,
+						_password,
+						_is_zipped)
+		child.command = command
+		child.explanation=explanation
+		child.position_grid = Globals.get_position_randomly(self)
+		children.append(child)
 
 ######################
 # ACCESSEURS BASIQUE #
