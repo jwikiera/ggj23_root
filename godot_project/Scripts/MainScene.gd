@@ -14,6 +14,7 @@ func print_welcome():
 
 func _ready():
 	print("MainScene ready��")
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	seed(Globals.seed_)
 	add_child(Globals.console)
 	print_welcome()
