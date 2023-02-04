@@ -6,7 +6,7 @@ var player
 var player_coords: Vector2 
 var root:Folder # représente l'entièreté de la map
 var current_folder: Folder
-
+var timer_principal:float = 60 # en seconde
 
 var _console_width: float = 20 #(percentage)
 var console_color: Color = Color(0, 0, 0)
@@ -46,6 +46,18 @@ func _ready():
 	#current_folder.initialize_scene(self)
 	#root.print()
 
+func _process(delta):
+	timer_principal -= delta
+	print(Globals.print_timer())
+	
+	if timer_principal<=0:
+		game_over()
+
+
+
+func game_over():
+	pass
+	
 func get_console_width() -> float:
 	return get_viewport().size.x / 100 * Globals._console_width
 	
@@ -201,3 +213,20 @@ func generate_sous_dossier(dossier, level:int=7):
 		#joueur.current_folder = dossier
 		#joueur.position = Vecteur(0,0)
 		
+func get_nb_visited_folders()->int:
+	return root.get_nb_visited_folders();
+
+func print_timer()->String:
+	var secondes = int(timer_principal) % 60
+	var minutes = (int(timer_principal) - secondes)/60
+	
+	var secondes_txt = str(secondes)
+	if secondes<10:
+		secondes_txt = "0"+str(secondes)
+	
+	var minutes_txt = str(minutes)
+	if minutes<10:
+		minutes_txt = "0"+str(minutes)
+		
+	return minutes_txt+":"+secondes_txt
+	

@@ -51,7 +51,8 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	
 	#placer joueur au bon endroit (étape 2 et fin)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-
+	
+	print("Nombre de salle : " + str(Globals.get_nb_visited_folders()))
 
 ###########################
 # MOVE
