@@ -77,6 +77,14 @@ func setNameElement(name_el : String):
 func setParent(_parent):
 	parent = _parent
 
+func delete():
+	#retirer du parent
+	parent.children.erase(self)
+#	for i in range(parent.children.size()):
+#		if parent.children[i]==self:
+#			parent.children...
+	#retirer de la scène et de la mémoire
+	queue_free()
 
 func print():
 	print(name_element)

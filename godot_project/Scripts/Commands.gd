@@ -2,7 +2,7 @@ extends Node
 
 
 signal move(direction)
-signal change_dir(folder, is_parent)
+signal change_dir(folder, is_parent, password)
 signal unzip(folder)
 signal download(element)
 signal start_game()
@@ -69,15 +69,15 @@ func command_download():
 	if element!=null and element.type==Element.Type.CHECKPOINT_FILE:
 		Globals.player.add_checkpoint()
 		Globals.console.send_log("YELLOW:Checkpoint added")
-		element.queue_free()
+		element.delete()
 	elif element!=null and element.type==Element.Type.PASSWORD:
 		Globals.player.add_password(element.password_content)
-		Globals.console.send_log("YELLOW:Password " + element.password_content + " added")
-		element.queue_free()
+		Globals.console.send_log("YELLOW:Password " + Globals.passwords_dictionnary[element.password_content] + " added")
+		element.delete()
 	elif element!=null and element.type==Element.Type.PRIVILEDGE:
 		Globals.player.add_privilege(element.priviledge_level)
 		Globals.console.send_log("YELLOW:Privilege added")
-		element.queue_free()
+		element.delete()
 	else:
 		#pas sur un dossier
 		Globals.console.send_log("RED:Not a file")
@@ -85,11 +85,12 @@ func command_download():
 func command_passwords():
 	Globals.console.send_log("YELLOW:Known passwords:")
 	for i in range(Globals.player.list_passwords.size()):
-		Globals.console.send_log("YELLOW:"+Globals.player.list_passwords[i])
+		Globals.console.send_log("YELLOW:"+Globals.passwords_dictionnary[Globals.player.list_passwords[i]])
 	if Globals.player.list_passwords.size()==0:
 		Globals.console.send_log("YELLOW:<No known passwords>")
 	
-func command_cd():
+
+func command_cd(password:String):
 	if not Globals.com_enabled('cd'):
 		command_not_available()
 		return
@@ -99,15 +100,21 @@ func command_cd():
 
 	if element!=null and element.type==Element.Type.FOLDER:
 		if true:#check privilèges
-			if true:#check mot de passe
+#			print("1." + element.password_access)
+#			if element.password_access!="":
+#				print("2." + Globals.passwords_dictionnary[element.password_access])
+#			print("3." + password)
+			if element.password_access=="" or Globals.passwords_dictionnary[element.password_access]==password.to_upper():#check mot de passe
 				if true: #zip
 					#si ok, changer de folder
 					emit_signal("change_dir", element, element==Globals.current_folder.parent)
 					Globals.console.send_log("YELLOW:Changed directory")
 				else:
 					Globals.console.send_log("YELLOW:Unzip before accessing")
-			else:
+			elif password=="":
 				Globals.console.send_log("RED:Password required")
+			else:
+				Globals.console.send_log("RED:Password incorrect")
 		else:
 			Globals.console.send_log("RED:Access denied")
 			Globals.console.send_log("RED:Higher privileges required")
@@ -115,6 +122,9 @@ func command_cd():
 		#pas sur un dossier
 		Globals.console.send_log("YELLOW:Not a directory")
 	
+func command_get_folder():
+	Globals.console.send_log("YELLOW:"+Globals.current_folder.name_element)
+	print("Folder : " +Globals.current_folder.name_element)
 	
 func command_toggle_cursor():
 	Globals.player.toggle_texture()

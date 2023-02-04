@@ -16,10 +16,9 @@ var invite_text = '  ~> '
 var seed_ = 2023
 var has_greeted = false
 
-#var grid = []
-#var grid_size_x = 30
-#var grid_size_y = 11
 var _grid_margin = 10
+
+var passwords_dictionnary
 
 
 var COLORS = {
@@ -29,6 +28,7 @@ var COLORS = {
 	"CYAN": Color('#30B695'),
 	"WHITE": Color(1, 1, 1)
 }
+
 
 var _commands = {
 	'boot':  true,
@@ -50,6 +50,7 @@ func disable_command(command: String) -> void:
 func com_enabled(command: String) -> bool:
 	return _commands[command]
 
+
 func _ready():
 	print("Globals ready")
 	console_font = DynamicFont.new()
@@ -59,9 +60,10 @@ func _ready():
 	player = load("res://Player/Player.tscn").instance()
 	#print(console_font.size)
 	root = load("res://Elements/Folder.tscn").instance()
-	root.Initialize(null, Vector2(0,0), Element.Type.FOLDER, Element.Protection.ROUGE, "password1")
+	root.Initialize(null, Vector2(0,0), Element.Type.FOLDER, Element.Protection.ROUGE, "password4")
 	root.name="root"
 	generate_sous_dossier(root)
+	generate_passwords_dictionnary()
 	#current_folder.initialize_scene()
 	
 	#current_folder.initialize_scene(self)
@@ -91,7 +93,7 @@ func get_y_grid_margin():
 # CREATION DE LA MAP
 ###########################
 
-func set_position_randomly(folder) -> Vector2:
+func get_position_randomly(folder) -> Vector2:
 	#retourne aléatoirement une position vide de la grille
 	var espace_libre=false
 	var pos:Vector2
@@ -115,18 +117,23 @@ func addFolder(dossier,pos:Vector2, protection=Element.Protection.JAUNE, passwor
 						protection,
 						password,
 						is_zipped)
-	child.position_grid = set_position_randomly(dossier)
-	child.position_grid_parent = set_position_randomly(dossier)
+	child.position_grid = get_position_randomly(dossier)
+	child.position_grid_parent = get_position_randomly(dossier)
 
-func generate_sous_dossier(dossier, level:int=7):
-	if level==7:
+func generate_sous_dossier(dossier, level:int=8):
+	if level==8:
+		# DOSSIER 1 (Suite du chemin)
+		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password5")
+		generate_sous_dossier(dossier.lastChildren(), level-1)
+		
+	elif level==7:
 		# DOSSIER 1 (Password)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password2")
-		dossier.lastChildren().addPassword(Vector2(0,0),"password1")
+		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password6", true)
+		dossier.lastChildren().addPassword(Vector2(0,0),"password4")
 		
 		# DOSSIER 2 (Password)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
-		dossier.lastChildren().addPassword(Vector2(0,0),"password2")
+		dossier.lastChildren().addPassword(Vector2(0,0),"password6")
 		
 		# DOSSIER 3 (Vide)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
@@ -135,7 +142,7 @@ func generate_sous_dossier(dossier, level:int=7):
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
 											
 		# DOSSIER 5 (Suite du chemin)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password4")
+		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password3")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 	
 	elif level==6:
@@ -144,15 +151,16 @@ func generate_sous_dossier(dossier, level:int=7):
 		#dossier.lastChildren().addTuto(<Alias>)
 		
 		# DOSSIER 2 (TUTO LOOP)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "password3")
+		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "password2", true)
 		#dossier.lastChildren().addTuto(<Loop>)
 		
 		# DOSSIER 3 (CHECKPOINT)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
 		dossier.lastChildren().addCheckpointFile(Vector2(0,0))
 		
-		# DOSSIER 4 (Vide)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		# DOSSIER 4 (Mot de passe)
+		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
+		dossier.lastChildren().addPassword(Vector2(0,0),"password5")
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
@@ -160,14 +168,14 @@ func generate_sous_dossier(dossier, level:int=7):
 	
 	elif level==5:
 		# DOSSIER 1 (TUTO CHECKPOINT)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		addFolder(dossier, Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Checkpoint>)
 		
 		# DOSSIER 2 (Vide )
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		addFolder(dossier, Vector2(0,0))
 		
 		# DOSSIER 3 (Privilège rouge)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		addFolder(dossier, Vector2(0,0))
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ROUGE, Element.Protection.ORANGE)
 		
 		# DOSSIER 4 (Mot de passe)
@@ -175,20 +183,21 @@ func generate_sous_dossier(dossier, level:int=7):
 		dossier.lastChildren().addPassword(Vector2(0,0), "password3", Element.Protection.ORANGE)
 		
 		# DOSSIER 5 (Suite du chemin)
-		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==4:
 		# DOSSIER 1 (Privilège orange)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ORANGE)
+		#dossier.lastChildren().addTuto(<Priviledge>)
 		
-		# DOSSIER 2 (Mot de passe )
-		addFolder(dossier, Vector2(0,0))
-		dossier.lastChildren().addPassword(Vector2(0,0), "password4")
+		# DOSSIER 2 (Mot de passe)
+		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().addPassword(Vector2(0,0), "password2")
 		
 		# DOSSIER 3 (Tuto Remove)
-		addFolder(dossier, Vector2(0,0))
+		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
 		#dossier.lastChildren().addTuto(<Remove>)
 		
 		# DOSSIER 4 (Tuto back)
@@ -196,14 +205,13 @@ func generate_sous_dossier(dossier, level:int=7):
 		#dossier.lastChildren().addTuto(<Back>)
 		
 		# DOSSIER 5 (Suite du chemin)
-		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password5")
+		addFolder(dossier, Vector2(0,0))
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==3:
 		# DOSSIER 1 (Password)
 		addFolder(dossier, Vector2(0,0))
-		dossier.lastChildren().addPassword(Vector2(0,0), Element.Protection.JAUNE, "password5")
-		#dossier.lastChildren().addTuto(<Password>)
+		dossier.lastChildren().addPassword(Vector2(0,0), "password1" )
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))
@@ -250,3 +258,15 @@ func print_timer()->String:
 		
 	return minutes_txt+":"+secondes_txt
 	
+func generate_passwords_dictionnary():
+	passwords_dictionnary = {}
+	for i in range(10):
+		passwords_dictionnary["password"+str(i)]= generate_random_password()
+
+func generate_random_password()->String:
+	var pw =""
+	var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+	for i in range(5):
+		var n = randi() % 25
+		pw += alphabet[n]
+	return pw.to_upper()

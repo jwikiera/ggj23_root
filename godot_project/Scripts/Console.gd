@@ -82,6 +82,11 @@ func _on_Input_text_entered(new_text: String) -> void:
 	input_node.clear()
 	
 	var tlower: String = new_text.to_lower()
+	var splitted_tlower = tlower.split(" ")
+	tlower = splitted_tlower[0]
+	var info1 = ""
+	if splitted_tlower.size()>1:
+		info1=splitted_tlower[1]
 	
 	if tlower == "exit":
 		Commands.command_exit()
@@ -96,7 +101,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 	elif tlower == "move right":
 		Commands.command_right()
 	elif tlower == "cd":
-		Commands.command_cd()
+		Commands.command_cd(info1)
 	elif tlower == "cursor":
 		Commands.command_toggle_cursor()
 	elif tlower == "passwords":
@@ -113,6 +118,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_engage()
 	elif tlower == 'shader':
 		Commands.command_toggle_shader()
+	elif tlower == "folder":
+		Commands.command_get_folder()
 	else:
 		Commands.command_not_available()
 

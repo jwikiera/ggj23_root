@@ -19,6 +19,12 @@ func _ready():
 	Commands.connect("move", self, "_on_move_signal")
 	Commands.connect("change_dir", self, "_on_change_dir_signal")
 	Commands.connect("start_game", self, "_on_start_game_received")
+
+
+	#var folder_ = load("res://Elements/Folder.tscn")
+	#var folder = folder_.instance()
+	
+
 	
 		
 
@@ -44,6 +50,9 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	remove_child(Globals.player)
 	Globals.current_folder.initialize_scene(self)
 	add_child(Globals.player)
+	
+	# retirer mot de passe
+	Globals.current_folder.password_access=""
 	
 	#placer joueur au bon endroit (étape 2 et fin)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))

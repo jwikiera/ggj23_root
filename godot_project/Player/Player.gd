@@ -80,6 +80,6 @@ func add_password(pw:String):
 func add_checkpoint():
 	nb_checkpoints+=1
 
-func add_priviledge(level):
+func add_privilege(level):
 	if level>priviledge_level:
 		priviledge_level=level
