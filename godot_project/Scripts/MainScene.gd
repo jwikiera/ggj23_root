@@ -20,7 +20,8 @@ func _ready():
 	add_child(Globals.console)
 	add_child(Globals.player)
 	
-	Globals.player_coords = Vector2(int(Globals.current_folder.cell_amount_x / 2), int(Globals.current_folder.cell_amount_y / 2))
+	
+	Globals.player_coords = Globals.get_position_randomly(Globals.current_folder)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
@@ -48,6 +49,9 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	remove_child(Globals.player)
 	Globals.current_folder.initialize_scene(self)
 	add_child(Globals.player)
+	
+	# retirer mot de passe
+	Globals.current_folder.password_access=""
 	
 	#placer joueur au bon endroit (étape 2 et fin)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))

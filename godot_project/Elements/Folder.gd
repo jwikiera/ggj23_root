@@ -9,7 +9,7 @@ var children: Array
 var position_grid_parent :Vector2 #position dans la grille en tant que parent
 
 var cell_amount_x =10
-var cell_amount_y =17
+var cell_amount_y =8
 
 var grid = []
 
@@ -159,6 +159,7 @@ func print():
 
 
 func getElement(pos : Vector2)->Element:
+	print("Niveau : " + name_element)
 	for i in range(children.size()):
 		if children[i].position_grid==pos:
 			return children[i]

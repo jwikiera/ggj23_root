@@ -78,19 +78,24 @@ func _on_Input_text_entered(new_text: String) -> void:
 	input_node.clear()
 	
 	var tlower: String = new_text.to_lower()
+	var splitted_tlower = tlower.split(" ")
+	tlower = splitted_tlower[0]
+	var info1 = ""
+	if splitted_tlower.size()>1:
+		info1=splitted_tlower[1]
 	
 	if tlower == "exit":
 		Commands.command_exit()
-	elif tlower == "move up":
+	elif tlower == "top":
 		Commands.command_up() 
-	elif tlower == "move down":
+	elif tlower == "down":
 		Commands.command_down() 
-	elif tlower == "move left":
+	elif tlower == "left":
 		Commands.command_left() 
-	elif tlower == "move right":
+	elif tlower == "right":
 		Commands.command_right()
 	elif tlower == "cd":
-		Commands.command_cd()
+		Commands.command_cd(info1)
 	elif tlower == "cursor":
 		Commands.command_toggle_cursor()
 	elif tlower == "passwords":
@@ -99,6 +104,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_unzip()
 	elif tlower == "download":
 		Commands.command_download()
+	elif tlower == "folder":
+		Commands.command_get_folder()
 
 
 func get_color(command: String) -> Color:
