@@ -173,9 +173,18 @@ func command_engage():
 func command_toggle_shader():
 	emit_signal("toggle_shader")
 
+func command_skip():
+	Globals.disable_command('engage')
+	Globals.disable_command('boot')
+	Globals.enable_command('cd')
+	Globals.enable_command('move')
+	if not Globals.game_has_started:
+		emit_signal("start_game")
+
 func command_help():
 	var res = 'List of commands:'
 	for command in Globals.get_commands():
 		if Globals.com_enabled(command):
 			res += '\n   * ' + command
 	Globals.console.send_log(res)
+
