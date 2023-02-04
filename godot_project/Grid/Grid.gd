@@ -9,6 +9,10 @@ func _ready():
 	
 func _draw():
 	draw_grid_lines()
+	
+#	var index = Vector2(int(Globals.grid_size_x / 2), int(Globals.grid_size_y / 2))
+#	draw_rect(Rect2(Globals.get_grid_pos_x() + index.x * Globals.get_grid_x_cell_size(),
+#		Globals.get_grid_pos_y() + index.y * Globals.get_grid_y_cell_size(), 5, 5), Color(1, 1, 1))
 
 #func fill_grid(grid):
 
