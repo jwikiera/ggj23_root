@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 class_name Element
 
@@ -9,7 +9,7 @@ var name_element : String
 var parent
 
 # position dans la grille (unité : case)
-var position : Vector2
+#var position : Vector2
 
 # type de l'élément
 enum Type{

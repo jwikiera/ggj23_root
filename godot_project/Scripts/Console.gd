@@ -1,8 +1,6 @@
 extends Node2D
 
 
-
-var console_x: float
 var input_node: LineEdit
 
 var command_history = []
@@ -12,12 +10,11 @@ var command_history_index
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	command_history_index = 0
-	console_x = get_viewport().size.x - Globals.get_console_width()
 	print("console ready (width %d)" % Globals.get_console_width())
 	input_node = get_node("Input")
 	input_node.grab_focus()
 	input_node.set_position(
-		Vector2(console_x + invite_len(),
+		Vector2(get_console_x() + invite_len(),
 		get_viewport().size.y - input_node.rect_size.y - 13
 		))
 	input_node.rect_size.x = Globals.get_console_width()
@@ -53,9 +50,12 @@ func _process(delta):
 		print("pressed down, index: %d" %command_history_index)
 	update()
 
+func get_console_x() -> float:
+	return get_viewport().size.x - Globals.get_console_width()
+
 func _draw():
 	var console_rect = Rect2(
-		console_x,
+		get_console_x(),
 		0,
 		Globals.get_console_width(),
 		get_viewport().size.y)
@@ -109,7 +109,7 @@ func draw_console_history():
 	var command_height: float = get_viewport().size.y - input_node.rect_size.y - Globals.console_font.get_height()
 	for i in range(len(command_history)):
 		var command: String = command_history[len(command_history) - 1 - i]
-		draw_string(Globals.console_font, Vector2(console_x + invite_len(), command_height), get_text(command), get_color(command))
+		draw_string(Globals.console_font, Vector2(get_console_x() + invite_len(), command_height), get_text(command), get_color(command))
 		command_height -= (Globals.console_font.get_height() + 2)
 
 
@@ -117,4 +117,4 @@ func invite_len() -> float:
 	return Globals.console_font.get_string_size(Globals.invite_text).x
 
 func draw_invite():
-	draw_string(Globals.console_font, Vector2(console_x, get_viewport().size.y - Globals.console_font.get_height() / 2), Globals.invite_text)
+	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 2), Globals.invite_text)

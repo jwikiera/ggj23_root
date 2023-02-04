@@ -19,12 +19,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Elements/CheckpointFile.gd"
 }, {
-"base": "Node",
+"base": "Node2D",
 "class": "Element",
 "language": "GDScript",
 "path": "res://Elements/Element.gd"
 }, {
-"base": "Node",
+"base": "Element",
 "class": "Folder",
 "language": "GDScript",
 "path": "res://Elements/Folder.gd"
@@ -58,7 +58,8 @@ config/icon="res://icon.png"
 
 Globals="*res://Singletons/Globals.tscn"
 Commands="*res://Scripts/Commands.gd"
-Util="*res://Scripts/Util.gd"
+Util="*res://Singletons/Util.gd"
+GridUtils="*res://Singletons/GridUtils.gd"
 
 [display]
 

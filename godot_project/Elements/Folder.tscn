@@ -1,5 +1,6 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Elements/Folder.gd" type="Script" id=1]
 
 [node name="Folder" type="Node2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+script = ExtResource( 1 )
