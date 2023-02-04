@@ -35,15 +35,19 @@ func _process(delta):
 
 func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	Globals.console.send_log("received cd signal")
-	#placer joueur au bon endroit
+	#placer joueur au bon endroit (étape 1)
 	if is_parent:
 		Globals.player_coords = Globals.current_folder.position_grid
 	else:
 		Globals.player_coords = Globals.current_folder.position_grid_parent
+		
 	# retirer les anciens elements et placer les nouveaux
 	Globals.current_folder.delete_scene(self)
 	Globals.current_folder=new_folder
 	Globals.current_folder.initialize_scene(self)
+	
+	#placer joueur au bon endroit (étape 2 et fin)
+	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 
 
 ###########################

@@ -3,6 +3,8 @@ extends Node
 
 signal move(direction)
 signal change_dir(folder, is_parent)
+signal unzip(folder)
+signal download(element)
 
 const DIRS = {
 	DIR_UP = 0,
@@ -34,11 +36,41 @@ func command_left():
 func command_right():
 	_send_move_signal(DIRS.DIR_RIGHT)
 	
+func command_unzip():
+	pass
+
+func command_download():
+	#check s'il y a un dossier à la pos du joueur
+	var element = Globals.current_folder.getElement(Globals.player_coords)
+
+	if element!=null and element.type==Element.Type.CHECKPOINT_FILE:
+		Globals.player.add_checkpoint()
+		Globals.console.send_log("YELLOW:Checkpoint added")
+		element.queue_free()
+	elif element!=null and element.type==Element.Type.PASSWORD:
+		Globals.player.add_password(element.password_content)
+		Globals.console.send_log("YELLOW:Password " + element.password_content + " added")
+		element.queue_free()
+	elif element!=null and element.type==Element.Type.PRIVILEDGE:
+		Globals.player.add_privilege(element.priviledge_level)
+		Globals.console.send_log("YELLOW:Privilege added")
+		element.queue_free()
+	else:
+		#pas sur un dossier
+		Globals.console.send_log("RED:Not a file")
+
+func command_passwords():
+	Globals.console.send_log("YELLOW:Known passwords:")
+	for i in range(Globals.player.list_passwords.size()):
+		Globals.console.send_log("YELLOW:"+Globals.player.list_passwords[i])
+	if Globals.player.list_passwords.size()==0:
+		Globals.console.send_log("YELLOW:<No known passwords>")
+	
 func command_cd():
 	#Globals.console.send_log("CD @ (%d, %d)" % [Globals.player_coords.x, Globals.player_coords.y])
 	#check s'il y a un dossier à la pos du joueur
 	var element = Globals.current_folder.getElement(Globals.player_coords)
-	print(element)
+
 	if element!=null and element.type==Element.Type.FOLDER:
 		if true:#check privilèges
 			if true:#check mot de passe

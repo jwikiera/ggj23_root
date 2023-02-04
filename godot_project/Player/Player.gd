@@ -3,9 +3,15 @@ extends KinematicBody2D
 var velocity: Vector2 = Vector2.ZERO
 var sprite_node: Sprite
 
+var list_passwords : Array
+var nb_checkpoints : int
+var priviledge_level = Element.Protection.JAUNE
+
 func _ready():
 	print("Player ready")
 	sprite_node = get_node("Sprite")
+	list_passwords = []
+	
 	#move_to_grid_center()
 	#scale_self_to_grid()
 	#print(Globals.get_index_from_physical_coords(Vector2(500, 500)))
@@ -58,3 +64,13 @@ func get_self_center() -> Vector2:
 		self.get_position().x + sprite_size_x * sprite_node.scale.x,
 		self.get_position().y + sprite_size_y * sprite_node.scale.y
 	)
+
+func add_password(pw:String):
+	list_passwords.append(pw)
+
+func add_checkpoint():
+	nb_checkpoints+=1
+
+func add_priviledge(level):
+	if level>priviledge_level:
+		priviledge_level=level
