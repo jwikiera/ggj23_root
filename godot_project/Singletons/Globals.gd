@@ -2,6 +2,7 @@ extends Node2D
 
 
 var console
+var player
 var current_folder: Folder
 
 
@@ -31,6 +32,7 @@ func _ready():
 	console_font.font_data = load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
 	console = load("res://Scenes/Console.tscn").instance()
+	player = load("res://Player/Player.tscn").instance()
 	#print(console_font.size)
 
 func get_console_width() -> float:
