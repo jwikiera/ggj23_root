@@ -13,6 +13,7 @@ var cell_amount_y =17
 
 var grid = []
 
+var visited : bool
 
 var _cell_scene
 
@@ -72,6 +73,8 @@ func initialize_scene(node_source:Node2D):
 	for i in range(children.size()):
 		node_source.add_child(children[i])
 		children[i].set_position_in_grid(children[i].position_grid)
+	
+	visited=true
 
 func delete_scene(node_source:Node2D):
 	
@@ -171,6 +174,16 @@ func lastChildren()->Element:
 		return children[children.size()-1]
 	return null
 
+# Compter le nombre de "salles" visitées
+func get_nb_visited_folders()->int:
+	var nb = 0;
+	for i in range(children.size()):
+		if children[i].type==Element.Type.FOLDER:
+			nb += children[i].get_nb_visited_folders()
+	if visited:
+		nb+=1
+	
+	return nb
 
 
 		
