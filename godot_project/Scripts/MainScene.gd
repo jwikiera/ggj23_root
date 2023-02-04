@@ -57,28 +57,25 @@ func _on_move_signal(direction: int) -> void:
 		else:
 			Globals.player_coords.y -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-			Globals.player.scale_to_grid()
 	if direction == Commands.DIRS.DIR_DOWN:
 		if Globals.player_coords.y == Globals.current_folder.cell_amount_y - 1:
 			Globals.console.send_log("RED:Error! Position out of bounds.")
 		else:
 			Globals.player_coords.y += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-			Globals.player.scale_to_grid()
 	if direction == Commands.DIRS.DIR_LEFT:
 		if Globals.player_coords.x == 0:
 			Globals.console.send_log("RED:Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-			Globals.player.scale_to_grid()
 	if direction == Commands.DIRS.DIR_RIGHT:
 		if Globals.player_coords.x == Globals.current_folder.cell_amount_x - 1:
 			Globals.console.send_log("RED:Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
-			Globals.player.scale_to_grid()
+
 
 ###########################
 # DRAWING
