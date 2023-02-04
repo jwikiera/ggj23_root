@@ -15,6 +15,7 @@ func _ready():
 
 	#var folder_ = load("res://Elements/Folder.tscn")
 	#var folder = folder_.instance()
+	
 	Globals.current_folder.initialize_scene(self)
 	add_child(Globals.console)
 	add_child(Globals.player)
@@ -44,7 +45,9 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	# retirer les anciens elements et placer les nouveaux
 	Globals.current_folder.delete_scene(self)
 	Globals.current_folder=new_folder
+	remove_child(Globals.player)
 	Globals.current_folder.initialize_scene(self)
+	add_child(Globals.player)
 	
 	#placer joueur au bon endroit (étape 2 et fin)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
