@@ -3,6 +3,7 @@ extends Node2D
 
 var ecran_victory: Sprite
 var ecran_game_over: Sprite
+var credits: Sprite
 var label_timer: Label
 var label_nb_salles: Label
 var label_depth: Label
@@ -34,12 +35,14 @@ func _ready():
 	
 	ecran_victory=get_node("EcranVictory")
 	ecran_game_over=get_node("EcranGameOver")
+	credits=get_node("Credits")
 	label_timer=get_node("Timer")
 	label_nb_salles=get_node("NbSalles")
 	label_depth=get_node("Depth")
 	label_folder=get_node("Folder")
 	ecran_victory.hide()
 	ecran_game_over.hide()
+	credits.hide()
 	label_timer.hide()
 	label_nb_salles.hide()
 	label_depth.hide()
@@ -114,7 +117,7 @@ func _on_game_over_received():
 	Globals.play_boot()
 	ecran_game_over.show()
 	
-	get_node("EcranGameOver/MessageFin").text="00:00\n\nYou have visited " + str(round(float(Globals.get_nb_visited_folders())/Globals.get_nb_folders()*100))+ "% of the folders\n\n'RESTART'\n'CREDITS'\n\nor\n'EXIT'"
+	get_node("EcranGameOver/MessageFin").text="00:00\n\nYou have visited " + str(round(float(Globals.get_nb_visited_folders())/Globals.get_nb_folders()*100))+ "% of the folders\n\n'RESTART'\n'CREDITS'\nor\n'EXIT'"
 
 
 ###########################
@@ -211,6 +214,7 @@ func _on_restart_received():
 	print_welcome()
 	ecran_victory.hide()
 	ecran_game_over.hide()
+	credits.hide()
 	label_timer.hide()
 	label_nb_salles.hide()
 	label_depth.hide()

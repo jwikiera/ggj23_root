@@ -194,6 +194,7 @@ func victory():
 		console.send_log('YELLOW:Congratulations!')
 		yield(get_tree().create_timer(2.0), "timeout")
 		console.send_log("YELLOW:'RESTART' to play again")
+		console.send_log("YELLOW:'CREDITS' for the credits")
 		emit_signal("victory")
 		Util.fade_out_audio(Globals.background_music, 10)
 
