@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Elements/Folder.gd" type="Script" id=1]
 [ext_resource path="res://Assets/file_open.png" type="Texture" id=2]
-[ext_resource path="res://Assets/File.png" type="Texture" id=3]
+[ext_resource path="res://Assets/folder.png" type="Texture" id=3]
 
 [node name="Folder" type="Node2D"]
 script = ExtResource( 1 )

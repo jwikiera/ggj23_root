@@ -17,6 +17,14 @@ var visited : bool
 
 var _cell_scene
 
+var texture_regular = load("res://Assets/cursor_pink.png")
+var texture_locked = load("res://Assets/folder_locked.png")
+var texture_unlocked = load("res://Assets/folder_unlocked.png")
+
+func set_icon():
+	if len(password_access) > 1:
+		get_node("Sprite").texture = texture_locked
+
 func _ready():
 	print("Folder scene loaded " + name_element)
 #
