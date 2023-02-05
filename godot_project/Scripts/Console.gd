@@ -180,7 +180,9 @@ func get_text(command: String) -> String:
 			return command.substr(len(key) + 1)
 	return command
 
-
+func clear_history():
+	message_history.clear()
+	
 func draw_message_history():
 	var msg_height: float = get_viewport().size.y - input_node.rect_size.y - Globals.console_font.get_height()
 	for i in range(len(message_history)):

@@ -139,6 +139,7 @@ func _ready():
 func restart():
 	print("Globals restart")
 	seed(seed_)
+	console.clear_history()
 	player = load("res://Player/Player.tscn").instance()
 	#retirer children de root
 	for i in root.children:

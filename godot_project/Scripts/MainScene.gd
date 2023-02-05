@@ -49,6 +49,8 @@ func _on_restart_received():
 	print_welcome()
 	ecran_victory.hide()
 	ecran_game_over.hide()
+	label_timer.hide()
+	label_nb_salles.hide()
 	
 	Globals.current_folder.delete_scene(self)
 	Globals.restart()
