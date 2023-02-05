@@ -3,5 +3,5 @@
 [ext_resource path="res://Fonts/digital-7.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 37
+size = 23
 font_data = ExtResource( 1 )

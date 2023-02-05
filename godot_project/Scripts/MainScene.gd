@@ -6,6 +6,7 @@ var ecran_game_over: Sprite
 var label_timer: Label
 var label_nb_salles: Label
 var label_depth: Label
+var label_folder: Label
 
 
 func print_welcome():
@@ -36,11 +37,13 @@ func _ready():
 	label_timer=get_node("Timer")
 	label_nb_salles=get_node("NbSalles")
 	label_depth=get_node("Depth")
+	label_folder=get_node("Folder")
 	ecran_victory.hide()
 	ecran_game_over.hide()
 	label_timer.hide()
 	label_nb_salles.hide()
 	label_depth.hide()
+	label_folder.hide()
 		
 
 func _process(delta):
@@ -73,6 +76,7 @@ func _process(delta):
 	update()
 	label_timer.text = Globals.print_timer()
 	label_nb_salles.text = "Folders discovered: "+str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
+	label_folder.text = Globals.current_folder.name_element
 	if Globals.root!=null:
 		label_depth.text = "Depth: " +str(Globals.get_current_depth()) + "/" +str(Globals.root.get_depth())
 	else:
@@ -97,6 +101,7 @@ func _on_game_over_received():
 	var viewport_height = get_viewport().size.y
 	var target_height = viewport_height - viewport_height / 100 * Globals.dialog_margin * 2
 	var ratio: float = target_height / sprite_height
+	
 	ecran_game_over.scale.x = 1
 	ecran_game_over.scale.y = 1
 	ecran_game_over.scale.x *= ratio
@@ -104,6 +109,8 @@ func _on_game_over_received():
 	ecran_game_over.position.x = (get_viewport().size.x - ecran_game_over.texture.get_width() * ecran_game_over.scale.x) / 2
 	ecran_game_over.position.y = (get_viewport().size.y - ecran_game_over.texture.get_height() * ecran_game_over.scale.y) / 2
 	ecran_game_over.show()
+	
+	get_node("EcranGameOver/MessageFin").text="00:00\n\nYou have visited " + str(round(float(Globals.get_nb_visited_folders())/Globals.get_nb_folders()*100))+ "% of the folders\n\n'RESTART'\n\nor\n\n'EXIT'"
 
 
 ###########################
@@ -189,6 +196,8 @@ func _on_start_game_received():
 	label_nb_salles.rect_position.y = get_viewport().size.y / 100 * 93
 	label_depth.show()
 	label_depth.rect_position.y = get_viewport().size.y / 100 * 93
+	label_folder.show()
+	label_folder.rect_position.y = get_viewport().size.y / 100 * 7
 	Globals.background_music.play()
 
 func _on_restart_received():
@@ -199,6 +208,7 @@ func _on_restart_received():
 	ecran_game_over.hide()
 	label_timer.hide()
 	label_nb_salles.hide()
+	label_depth.hide()
 
 	Globals.current_folder.delete_scene(self)
 	Globals.restart()
