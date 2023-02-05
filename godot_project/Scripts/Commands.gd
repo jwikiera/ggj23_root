@@ -7,6 +7,7 @@ signal unzip(folder)
 signal download(element)
 signal start_game()
 signal toggle_shader()
+signal restart()
 
 const DIRS = {
 	DIR_UP = 0,
@@ -124,7 +125,11 @@ func command_passwords():
 		Globals.console.send_log("YELLOW:"+Globals.passwords_dictionnary[Globals.player.list_passwords[i]])
 	if Globals.player.list_passwords.size()==0:
 		Globals.console.send_log("YELLOW:<No known passwords>")
-	
+
+func command_all_passwords():
+	Globals.console.send_log("YELLOW:Known passwords:")
+	for i in range(Globals.passwords_dictionnary.keys().size()):
+		Globals.console.send_log("YELLOW:"+Globals.passwords_dictionnary[Globals.passwords_dictionnary.keys()[i]])
 
 func command_cd(password:String):
 	if not Globals.com_enabled('cd'):
@@ -183,6 +188,12 @@ func command_boot():
 	Globals.console.send_log('Init complete')
 	Globals.enable_command('engage')
 	
+func enable_base_commands():
+	Globals.enable_command('cd')
+	Globals.enable_command('move')
+	Globals.enable_command('download')
+	Globals.enable_command('restart')
+
 func command_engage():
 	if not Globals.com_enabled('engage'):
 		command_not_available()
@@ -192,9 +203,7 @@ func command_engage():
 	Globals.console.send_log('...')
 	yield(get_tree().create_timer(0.4), "timeout")
 	Globals.console.send_log('Connection with sytem established')
-	Globals.enable_command('cd')
-	Globals.enable_command('move')
-	Globals.enable_command('download')
+	enable_base_commands()
 	emit_signal("start_game")
 	
 func command_toggle_shader():
@@ -202,10 +211,8 @@ func command_toggle_shader():
 
 func command_skip():
 	Globals.disable_command('engage')
-	Globals.disable_command('boot')
-	Globals.enable_command('cd')
-	Globals.enable_command('move')
-	Globals.enable_command('download')
+	
+	enable_base_commands()
 	if not Globals.game_has_started:
 		emit_signal("start_game")
 
@@ -215,4 +222,16 @@ func command_help():
 		if Globals.com_enabled(command):
 			res += '\n   * ' + Globals._commands[command]['full_name']
 	Globals.console.send_log(res)
+	
+func command_restart():
+	if not Globals.com_enabled('restart'):
+		command_not_available()
+		return
+	emit_signal("restart")
+
+func command_victory():
+	Globals.victory()
+
+func command_gameover():
+	Globals.game_over()
 

@@ -1,15 +1,21 @@
 extends Node2D
 
 
+var ecran_victory: Sprite
+var ecran_game_over: Sprite
+var label_timer: Label
+var label_nb_salles: Label
+
 
 func print_welcome():
 	yield(get_tree().create_timer(3.0), "timeout")
 	if not Globals.has_greeted:
-		Globals.console.send_log("WelcomeTest")
+		Globals.console.send_log("Welcome")
 	yield(get_tree().create_timer(2.0), "timeout")
 	if not Globals.has_greeted:
 		Globals.console.send_log("CYAN:You are at your own 'help'")
 		Globals.has_greeted = true
+
 
 func _ready():
 	print("MainScene ready��")
@@ -20,13 +26,18 @@ func _ready():
 	Commands.connect("move", self, "_on_move_signal")
 	Commands.connect("change_dir", self, "_on_change_dir_signal")
 	Commands.connect("start_game", self, "_on_start_game_received")
-
-
-	#var folder_ = load("res://Elements/Folder.tscn")
-	#var folder = folder_.instance()
+	Commands.connect("restart", self, "_on_restart_received")
+	Globals.connect("victory", self, "_on_victory_received")
+	Globals.connect("game_over", self, "_on_game_over_received")
 	
-
-	
+	ecran_victory=get_node("EcranVictory")
+	ecran_game_over=get_node("EcranGameOver")
+	label_timer=get_node("Timer")
+	label_nb_salles=get_node("NbSalles")
+	ecran_victory.hide()
+	ecran_game_over.hide()
+	label_timer.hide()
+	label_nb_salles.hide()
 		
 
 func _process(delta):
@@ -56,6 +67,16 @@ func _process(delta):
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	
 	update()
+	label_timer.text = Globals.print_timer()
+	label_nb_salles.text = str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
+
+
+func _on_victory_received():
+	ecran_victory.show()
+
+
+func _on_game_over_received():
+	ecran_game_over.show()
 
 
 ###########################
@@ -63,7 +84,6 @@ func _process(delta):
 ###########################
 
 func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
-	Globals.console.send_log("received cd signal")
 	#placer joueur au bon endroit (étape 1)
 	if is_parent:
 		Globals.player_coords = Globals.current_folder.position_grid
@@ -88,6 +108,7 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	#GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	
 	print("Nombre de salle : " + str(Globals.get_nb_visited_folders()))
+
 
 ###########################
 # MOVE
@@ -121,6 +142,7 @@ func _on_move_signal(direction: int) -> void:
 
 
 func _on_start_game_received():
+	print('Received start')
 	Globals.game_has_started = true
 	
 	#Globals.intro_music.playing = false
@@ -134,6 +156,21 @@ func _on_start_game_received():
 	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
+	label_timer.show()
+	label_nb_salles.show()
+
+func _on_restart_received():
+	#remove_child(Globals.player)
+	Globals.player.queue_free()
+	print_welcome()
+	ecran_victory.hide()
+	ecran_game_over.hide()
+	label_timer.hide()
+	label_nb_salles.hide()
+
+	Globals.current_folder.delete_scene(self)
+	Globals.restart()
+
 
 ###########################
 # DRAWING
@@ -180,5 +217,4 @@ func draw_grid_lines():
 			Globals.COLORS['WHITE']
 		)
 		j += 1
-
-
+		

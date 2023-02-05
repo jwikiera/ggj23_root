@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/crt_shader.gd" type="Script" id=3]
+[ext_resource path="res://Fonts/timer_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Assets/Interface/INTERFACE_success.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Interface/INTERFACE_game_over.png" type="Texture" id=6]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -318,3 +321,30 @@ margin_right = 1922.0
 margin_bottom = 1270.0
 texture = ExtResource( 2 )
 expand = true
+
+[node name="Timer" type="Label" parent="."]
+margin_left = 109.0
+margin_top = 998.0
+margin_right = 167.0
+margin_bottom = 1012.0
+custom_fonts/font = ExtResource( 4 )
+text = "testerino"
+
+[node name="NbSalles" type="Label" parent="."]
+margin_left = 505.0
+margin_top = 993.0
+margin_right = 545.0
+margin_bottom = 1031.0
+custom_fonts/font = ExtResource( 4 )
+
+[node name="EcranVictory" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1020, 704 )
+scale = Vector2( 0.255, 0.312889 )
+texture = ExtResource( 5 )
+
+[node name="EcranGameOver" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1020, 704 )
+scale = Vector2( 0.255, 0.313 )
+texture = ExtResource( 6 )

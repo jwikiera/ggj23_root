@@ -125,7 +125,32 @@ func _on_Input_text_entered(new_text: String) -> void:
 	if splitted_tlower.size()>1:
 		info1=splitted_tlower[1]
 	
-	if tlower == "exit" or tlower == ":q":
+	##################
+	# DEBUG COMMANDS #
+	##################
+	if tlower == "skip":
+		Commands.command_skip()
+	elif tlower == "all_passwords":
+		Commands.command_all_passwords()
+	elif tlower == "restart":
+		Commands.command_restart()
+	elif tlower == "folder":
+		Commands.command_get_folder()
+	elif tlower == "victory":
+		Commands.command_victory()
+	elif tlower == "gameover":
+		Commands.command_gameover()
+	elif tlower == 'shader':
+		Commands.command_toggle_shader()
+	##################
+	# MISC COMMANDS  #
+	##################
+	elif tlower == "cursor":
+		Commands.command_toggle_cursor()
+	##################
+	# REAL COMMANDS  #
+	##################
+	elif tlower == "exit" or tlower == ":q":
 		Commands.command_exit()
 	elif tlower == "move":
 		Commands.command_move_incomplete()
@@ -139,8 +164,6 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_right()
 	elif tlower.begins_with("cd"):
 		Commands.command_cd(info1)
-	elif tlower == "cursor":
-		Commands.command_toggle_cursor()
 	elif tlower == "passwords":
 		Commands.command_passwords()
 	elif tlower == "unzip":
@@ -153,12 +176,6 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_boot()
 	elif tlower == 'engage':
 		Commands.command_engage()
-	elif tlower == 'shader':
-		Commands.command_toggle_shader()
-	elif tlower == "folder":
-		Commands.command_get_folder()
-	elif tlower == "skip":
-		Commands.command_skip()
 	else:
 		Commands.command_not_available()
 		Globals.play_error()
@@ -210,3 +227,6 @@ func _on_Input_gui_input(inp: InputEventKey):
 		var key = ord(inp.as_text().to_lower())
 		if key >= 97 and key <= 122 or key >= 48 and key <= 57:
 			tab_hits = []
+			
+func clear_history():
+	message_history.clear()

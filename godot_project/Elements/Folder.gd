@@ -214,15 +214,11 @@ func get_nb_visited_folders()->int:
 	
 	return nb
 
-
-		
-#	if direction == Commands.DIRS.DIR_UP:
-#		velocity.y = -64
-#	if direction == Commands.DIRS.DIR_DOWN:
-#		velocity.y = 64
-#	if direction == Commands.DIRS.DIR_LEFT:
-#		velocity.x = -64
-#	if direction == Commands.DIRS.DIR_RIGHT:
-#		velocity.x = 64
-#	move_and_collide(velocity)
-#	velocity = Vector2.ZERO
+func get_nb_folders()->int:
+	var nb = 0;
+	for i in range(children.size()):
+		if children[i].type==Element.Type.FOLDER:
+			nb += children[i].get_nb_folders()
+	nb+=1
+	
+	return nb

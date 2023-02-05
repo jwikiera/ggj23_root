@@ -1,15 +1,21 @@
 extends Node2D
 
 
+signal victory()
+signal game_over()
+
+
 var console
 var player
 var player_coords: Vector2 
 var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
-var timer_principal:float = 60 # en seconde
+var timer_maximal: float = 5*60
+var timer_principal: float = timer_maximal # en seconde
 var intro_music
 var error_sound
 
+var _grid_margin = 12
 var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
@@ -19,9 +25,9 @@ var seed_ = 42
 var has_greeted = false
 var game_has_started = false
 
-var _grid_margin = 12
-
 var passwords_dictionnary
+var has_succeeded: bool = false
+var has_failed: bool = false
 
 
 var COLORS = {
@@ -74,6 +80,10 @@ var _commands = {
 		'enabled':false,
 		'full_name':"play"
 		},
+	'restart':{
+		'enabled': false,
+		'full_name':"restart"
+		},
 	'exit': {
 		'enabled':true,
 		'full_name':"exit"
@@ -88,6 +98,7 @@ func get_commands():
 	return _commands.keys()
 
 func enable_command(command: String) -> void:
+	print('enabling command' + command)
 	_commands[command]['enabled'] = true
 	
 func disable_command(command: String) -> void:
@@ -96,6 +107,11 @@ func disable_command(command: String) -> void:
 func com_enabled(command: String) -> bool:
 	return _commands[command]['enabled'] 
 
+func restart_commands():
+	for command in _commands.keys():
+		_commands[command]['enabled']  = false
+	_commands['exit']['enabled'] = true
+	_commands['boot']['enabled'] = true
 
 func _ready():
 	print("Globals ready")
@@ -120,15 +136,61 @@ func _ready():
 	#root.print()
 
 func _process(delta):
-	timer_principal -= delta
+	if game_has_started and not has_failed and not has_succeeded:
+		timer_principal -= delta
 	
-	if timer_principal<=0:
+	if timer_principal <= 0:
+		timer_principal = 0
 		game_over()
+		
+	if current_folder == root:
+		victory()
 
+
+func victory():
+	if(not has_succeeded):
+		has_succeeded=true
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log('YELLOW:Root folder reached')
+		yield(get_tree().create_timer(1.3), "timeout")
+		console.send_log('...')
+		yield(get_tree().create_timer(1.5), "timeout")
+		console.send_log('YELLOW:Congratulations!')
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log("YELLOW:'RESTART' to play again")
+		emit_signal("victory")
+
+
+func restart():
+	print("Globals restart")
+	seed(seed_)
+	console.clear_history()
+	player = load("res://Player/Player.tscn").instance()
+	#retirer children de root
+	for i in root.children:
+		i.queue_free()
+	root.children=[]
+	#regenerer une map toute neuve
+	generate_sous_dossier(root)
+	generate_passwords_dictionnary()
+	restart_commands()
+	game_has_started = false
+	has_greeted = false
+	#mettre musique
+	timer_principal = timer_maximal
+	has_succeeded=false
+	has_failed=false
 
 
 func game_over():
-	pass
+	if(not has_failed):
+		has_failed = true
+		console.send_log('RED:TIME OUT')
+		yield(get_tree().create_timer(1.5), "timeout")
+		console.send_log('RED:GAME OVER !')
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log("RED:'RESTART' to play again")
+		emit_signal("game_over")
 	
 func get_console_width() -> float:
 	return get_viewport().size.x / 100 * Globals._console_width
@@ -293,10 +355,13 @@ func generate_sous_dossier(dossier, level:int=8):
 		#joueur.current_folder = dossier
 		#joueur.position = Vecteur(0,0)
 		
-func get_nb_visited_folders()->int:
+func get_nb_visited_folders() -> int:
 	return root.get_nb_visited_folders();
+	
+func get_nb_folders() -> int:
+	return root.get_nb_folders();
 
-func print_timer()->String:
+func print_timer() -> String:
 	var secondes = int(timer_principal) % 60
 	var minutes = (int(timer_principal) - secondes)/60
 	
