@@ -324,31 +324,38 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 4 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
+		dossier.lastChildren().set_name("NotMyPasswords")
 		dossier.lastChildren().addPassword(Vector2(0,0),"password5")
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().set_name("Unnamed")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 	
 	elif level==5:
 		# DOSSIER 1 (TUTO CHECKPOINT)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("GlobalGameJamGeneva")
 		#dossier.lastChildren().addTuto(Vector2(0,0), 'checkpoint', "")
 		
 		# DOSSIER 2 (Vide )
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("DoNoOpenDeadInside")
 		dossier.lastChildren().addSablier(Vector2(0,0))
 		
 		# DOSSIER 3 (Privilège rouge)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("Pokemon")
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ROUGE, Element.Protection.ORANGE)
 		
 		# DOSSIER 4 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().set_name("TurinPictures")
 		dossier.lastChildren().addPassword(Vector2(0,0), "password3", Element.Protection.ORANGE)
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
+		dossier.lastChildren().set_name("StartUpIdeas")
 		#dossier.lastChildren().addTuto(Vector2(0,0), 'unzip', "")
 		dossier.lastChildren().addSablier(Vector2(0,0))
 		generate_sous_dossier(dossier.lastChildren(), level-1)
@@ -356,33 +363,40 @@ func generate_sous_dossier(dossier, level:int=8):
 	elif level==4:
 		# DOSSIER 1 (Privilège orange)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
+		dossier.lastChildren().set_name("QuotesFromMrBean")
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ORANGE)
 		dossier.lastChildren().addTuto(Vector2(0,0), '', "You can access\nmore folders with\nhigher privileges")
 		
 		# DOSSIER 2 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().set_name("IMPORTANT")
 		dossier.lastChildren().addPassword(Vector2(0,0), "password2")
 		
 		# DOSSIER 3 (Tuto Remove)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().set_name("Empty")
 		#dossier.lastChildren().addTuto(<Remove>)
 		
 		# DOSSIER 4 (Tuto back)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
+		dossier.lastChildren().set_name("ReasonsIShouldStayToBed")
 		dossier.lastChildren().addTuto(Vector2(0,0), '', "Go through commands\nhistory with\n'KEY_UP' and 'KEY_DOWN'")
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("FunnyStuff")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==3:
 		# DOSSIER 1 (Password)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("CookingRecipes")
 		dossier.lastChildren().addPassword(Vector2(0,0), "password1" )
 		dossier.lastChildren().addTuto(Vector2(0,0), 'passwords', "")
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("SomeTuto")
 		dossier.lastChildren().addSablier(Vector2(0,0))
 		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use the key 'TAB'\nto autocomplete")
 		
@@ -393,15 +407,18 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 4 (Suite du chemin)
 		addFolder(dossier, Vector2(3,2))
+		dossier.lastChildren().set_name("Level2")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==2:
 		# DOSSIER 1 (Sablier)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().set_name("DeadEnd")
 		dossier.lastChildren().addSablier(Vector2(0,0))
 		
 		# DOSSIER 4 (Suite du chemin)
 		addFolder(dossier, Vector2(1,1))
+		dossier.lastChildren().set_name("TheBeginning")
 		current_folder=dossier.lastChildren()
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
