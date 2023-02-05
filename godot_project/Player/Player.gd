@@ -83,3 +83,4 @@ func add_checkpoint():
 func add_privilege(level):
 	if level>priviledge_level:
 		priviledge_level=level
+	

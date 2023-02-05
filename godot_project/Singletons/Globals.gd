@@ -140,6 +140,7 @@ func _ready():
 	
 	player = load("res://Player/Player.tscn").instance()
 	intro_music = load("res://Scenes/intro_music.tscn").instance()
+	console.add_child(intro_music)
 	background_music = load("res://Scenes/background_music.tscn").instance()
 	console.add_child(background_music)
 	victory_music = load("res://Scenes/victory_music.tscn").instance()
@@ -194,6 +195,7 @@ func victory():
 		yield(get_tree().create_timer(2.0), "timeout")
 		console.send_log("YELLOW:'RESTART' to play again")
 		emit_signal("victory")
+		Util.fade_out_audio(Globals.background_music, 10)
 
 
 func restart():
@@ -215,7 +217,9 @@ func restart():
 	timer_principal = timer_maximal
 	has_succeeded=false
 	has_failed=false
+	Util.fade_out_audio(Globals.background_music, 3)
 	Globals.intro_music.play()
+	Globals.intro_music.playing = true
 
 
 func game_over():
@@ -227,7 +231,6 @@ func game_over():
 		yield(get_tree().create_timer(2.0), "timeout")
 		console.send_error("'RESTART' to play again")
 		emit_signal("game_over")
-		Globals.intro_music.play()
 		Util.fade_out_audio(Globals.background_music, 10)
 	
 func get_console_width() -> float:
@@ -298,15 +301,17 @@ func generate_sous_dossier(dossier, level:int=8):
 	elif level==6:
 		# DOSSIER 1 (TUTO ALIAS)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Alias>)
 		
 		# DOSSIER 2 (TUTO LOOP)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "password2", true)
 		#dossier.lastChildren().addTuto(<Loop>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use CTRL+W to clear invite")
 		
 		# DOSSIER 3 (CHECKPOINT)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
-		dossier.lastChildren().addCheckpointFile(Vector2(0,0))
+		#dossier.lastChildren().addCheckpointFile(Vector2(0,0))
 		
 		# DOSSIER 4 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
@@ -323,6 +328,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 2 (Vide )
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		
 		# DOSSIER 3 (Privilège rouge)
 		addFolder(dossier, Vector2(0,0))
@@ -335,6 +341,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
 		#dossier.lastChildren().addTuto(Vector2(0,0), 'unzip', "")
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==4:
@@ -367,7 +374,8 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))
-		#dossier.lastChildren().addTuto(<Tab>)
+		dossier.lastChildren().addSablier(Vector2(0,0))
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use the key 'TAB'\nto autocomplete")
 		
 		# DOSSIER 3 (Tuto Download)
 		#addFolder(dossier, Vector2(0,0))
@@ -379,8 +387,9 @@ func generate_sous_dossier(dossier, level:int=8):
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==2:
-		# DOSSIER 1 (Vide)
+		# DOSSIER 1 (Sablier)
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		
 		# DOSSIER 4 (Suite du chemin)
 		addFolder(dossier, Vector2(1,1))
@@ -399,6 +408,9 @@ func get_nb_visited_folders() -> int:
 func get_nb_folders() -> int:
 	return root.get_nb_folders();
 
+func get_current_depth() -> int:
+	return current_folder.get_depth_from_parent()
+	
 func print_timer() -> String:
 	var secondes = int(timer_principal) % 60
 	var minutes = (int(timer_principal) - secondes)/60

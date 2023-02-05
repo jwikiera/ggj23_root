@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Fonts/timer_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Assets/Textures/Interface/SUCCESS.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Textures/Interface/GAME_OVER.png" type="Texture" id=6]
-[ext_resource path="res://Scenes/Timer.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Textures/Interface/CREDITS.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/Credits.gd" type="Script" id=9]
 
@@ -331,15 +330,23 @@ margin_top = 998.0
 margin_right = 167.0
 margin_bottom = 1012.0
 custom_fonts/font = ExtResource( 4 )
-text = "testerino"
-script = ExtResource( 7 )
+text = "Timer"
 
 [node name="NbSalles" type="Label" parent="."]
-margin_left = 505.0
-margin_top = 993.0
-margin_right = 545.0
-margin_bottom = 1031.0
+margin_left = 313.0
+margin_top = 985.0
+margin_right = 458.0
+margin_bottom = 1023.0
 custom_fonts/font = ExtResource( 4 )
+text = "Nb Salles"
+
+[node name="Depth" type="Label" parent="."]
+margin_left = 793.0
+margin_top = 986.0
+margin_right = 877.0
+margin_bottom = 1024.0
+custom_fonts/font = ExtResource( 4 )
+text = "Depth"
 
 [node name="EcranVictory" type="Sprite" parent="."]
 visible = false
