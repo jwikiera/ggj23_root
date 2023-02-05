@@ -96,3 +96,8 @@ func delete():
 
 func print():
 	print(name_element)
+
+func get_depth_from_parent()->int:
+	if parent!=null:
+		return 1+parent.get_depth_from_parent()
+	return 1

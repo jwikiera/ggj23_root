@@ -398,7 +398,7 @@ func get_nb_folders() -> int:
 	return root.get_nb_folders();
 
 func get_current_depth() -> int:
-	return root.get_depth() - current_folder.get_depth()+1
+	return current_folder.get_depth_from_parent()
 	
 func print_timer() -> String:
 	var secondes = int(timer_principal) % 60
