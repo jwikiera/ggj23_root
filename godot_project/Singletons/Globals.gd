@@ -6,7 +6,7 @@ var player
 var player_coords: Vector2 
 var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
-var timer_maximal:float=5
+var timer_maximal:float=5*60
 var timer_principal:float = timer_maximal # en seconde
 var intro_music
 var error_sound

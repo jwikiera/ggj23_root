@@ -155,11 +155,12 @@ func _on_move_signal(direction: int) -> void:
 func _on_start_game_received():
 	Globals.game_has_started = true
 	
+	Globals.current_folder.initialize_scene(self)
+	add_child(Globals.player)
+	
 	#Globals.intro_music.playing = false
 	Util.fade_out_audio(Globals.intro_music, 10)
 	
-	Globals.current_folder.initialize_scene(self)
-	add_child(Globals.player)
 	
 	Globals.player_coords = Globals.get_position_randomly(Globals.current_folder)
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
