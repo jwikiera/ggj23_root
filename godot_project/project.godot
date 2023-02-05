@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Element",
 "class": "Sablier",
 "language": "GDScript",
-"path": "res://Sablier.gd"
+"path": "res://Elements/Sablier.gd"
 }, {
 "base": "Element",
 "class": "TutoFile",

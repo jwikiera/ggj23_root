@@ -74,7 +74,7 @@ func _process(delta):
 	label_timer.text = Globals.print_timer()
 	label_nb_salles.text = "Folders discovered: "+str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
 	if Globals.root!=null:
-		label_depth.text = "Depth: " +str(Globals.root.get_depth())
+		label_depth.text = "Depth: " +str(Globals.get_current_depth()) + "/" +str(Globals.root.get_depth())
 	else:
 		label_depth.text = ""
 

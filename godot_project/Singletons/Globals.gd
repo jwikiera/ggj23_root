@@ -290,11 +290,13 @@ func generate_sous_dossier(dossier, level:int=8):
 	elif level==6:
 		# DOSSIER 1 (TUTO ALIAS)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Alias>)
 		
 		# DOSSIER 2 (TUTO LOOP)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "password2", true)
 		#dossier.lastChildren().addTuto(<Loop>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use CTRL+W to clear invite")
 		
 		# DOSSIER 3 (CHECKPOINT)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
@@ -315,6 +317,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 2 (Vide )
 		addFolder(dossier, Vector2(0,0))
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		
 		# DOSSIER 3 (Privilège rouge)
 		addFolder(dossier, Vector2(0,0))
@@ -327,6 +330,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
 		#dossier.lastChildren().addTuto(Vector2(0,0), 'unzip', "")
+		dossier.lastChildren().addSablier(Vector2(0,0))
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==4:
@@ -359,7 +363,8 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))
-		#dossier.lastChildren().addTuto(<Tab>)
+		dossier.lastChildren().addSablier(Vector2(0,0))
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use the key 'TAB'\nto autocomplete")
 		
 		# DOSSIER 3 (Tuto Download)
 		#addFolder(dossier, Vector2(0,0))
@@ -392,6 +397,9 @@ func get_nb_visited_folders() -> int:
 func get_nb_folders() -> int:
 	return root.get_nb_folders();
 
+func get_current_depth() -> int:
+	return root.get_depth() - current_folder.get_depth()+1
+	
 func print_timer() -> String:
 	var secondes = int(timer_principal) % 60
 	var minutes = (int(timer_principal) - secondes)/60
