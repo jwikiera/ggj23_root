@@ -160,10 +160,14 @@ func _on_Input_text_entered(new_text: String) -> void:
 	elif tlower == 'shader':
 		Commands.command_toggle_shader()
 	##################
-	# MISC COMMANDS  #
+	# CHEAT CODES    #
 	##################
-	elif tlower == "cursor":
+	elif tlower == "cosmetics":
 		Commands.command_toggle_cursor()
+	elif tlower == "aezakmi":
+		Commands.command_aezakmi()
+	elif tlower == "iamspeed":
+		Commands.command_iamspeed()
 	##################
 	# REAL COMMANDS  #
 	##################

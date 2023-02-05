@@ -12,6 +12,7 @@ var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
 var timer_maximal: float = 5*60
 var timer_principal: float = timer_maximal # en seconde
+var timer_enabled = true
 
 var intro_music
 var background_music
@@ -20,6 +21,7 @@ var chdir_sound
 var message_sound
 var engage_sound
 var boot_sound
+var aezakmi_sound
 
 var _grid_margin = 12
 var _console_width: float = 30 #(percentage)
@@ -30,6 +32,7 @@ var invite_text = '  ~> '
 var seed_ = 42
 var has_greeted = false
 var game_has_started = false
+var numpad_moves = false
 
 var passwords_dictionnary
 var has_succeeded: bool = false
@@ -141,6 +144,8 @@ func _ready():
 	console.add_child(engage_sound)
 	message_sound = load("res://Scenes/message_sound.tscn").instance()
 	console.add_child(message_sound)
+	aezakmi_sound = load("res://Scenes/aezakmi_sound.tscn").instance()
+	console.add_child(aezakmi_sound)
 	
 	#print(console_font.size)
 	root = load("res://Elements/Folder.tscn").instance()
@@ -154,7 +159,7 @@ func _ready():
 	#root.print()
 
 func _process(delta):
-	if game_has_started and not has_failed and not has_succeeded:
+	if game_has_started and not has_failed and not has_succeeded and timer_enabled:
 		timer_principal -= delta
 	
 	if timer_principal <= 0:
@@ -423,4 +428,7 @@ func play_message():
 	
 func play_engage():
 	engage_sound.play()
-
+	
+func play_aezakmi():
+	aezakmi_sound.play()
+	timer_enabled = false
