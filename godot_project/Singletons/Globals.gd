@@ -9,6 +9,7 @@ var current_folder: Folder
 var timer_maximal:float=5
 var timer_principal:float = timer_maximal # en seconde
 var intro_music
+var error_sound
 
 var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
@@ -87,6 +88,10 @@ var _commands = {
 		'enabled':true,
 		'full_name':"exit"
 		},
+	'help': {
+		'enabled':true,
+		'full_name':"help"
+		},
 }
 
 func get_commands():
@@ -118,6 +123,8 @@ func _ready():
 	console = load("res://Scenes/Console.tscn").instance()
 	player = load("res://Player/Player.tscn").instance()
 	intro_music = load("res://Scenes/intro_music.tscn").instance()
+	error_sound = load("res://Scenes/error_sound.tscn").instance()
+	console.add_child(error_sound)
 	#print(console_font.size)
 	root = load("res://Elements/Folder.tscn").instance()
 	root.Initialize(null, Vector2(0,0), Element.Type.FOLDER, Element.Protection.ROUGE, "password4")
@@ -382,3 +389,6 @@ func generate_random_password()->String:
 		var n = randi() % 25
 		pw += alphabet[n]
 	return pw.to_upper()
+
+func play_error():
+	error_sound.play()

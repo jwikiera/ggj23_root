@@ -96,22 +96,28 @@ func command_download(password):
 					else:
 						#pas sur un dossier
 						Globals.console.send_log("RED:Not a file")
+						Globals.play_error()
 				else:
 					Globals.console.send_log("YELLOW:Unzip before accessing")
+					Globals.play_error()
 			elif password=="":
 				Globals.console.send_log("RED:Password required")
+				Globals.play_error()
 			else:
 				Globals.console.send_log("RED:Password incorrect")
+				Globals.play_error()
 				
 				
 			
 		else:
 			Globals.console.send_log("RED:Access denied")
 			Globals.console.send_log("RED:Higher privileges required")
+			Globals.play_error()
 			
 	else:
 		#pas sur un dossier
 		Globals.console.send_log("RED:Not a file")
+		Globals.play_error()
 
 func command_passwords():
 	Globals.console.send_log("YELLOW:Known passwords:")

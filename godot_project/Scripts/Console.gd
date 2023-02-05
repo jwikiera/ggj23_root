@@ -6,10 +6,19 @@ var input_node: LineEdit
 var message_history = []
 var command_history = []
 var command_history_index
+var tab_hits = []
+var tab_hits_life = 0
+var tab_hits_index = 0
+var tab_hits_index_lifespan = 200
+
+var click_player
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	click_player = load("res://Scenes/keyboard_click.tscn").instance()
+	add_child(click_player)
+	print(click_player)
 	command_history_index = 0
 	print("console ready (width %d)" % Globals.get_console_width())
 	input_node = get_node("Input")
@@ -28,9 +37,37 @@ func _ready():
 	input_node.add_font_override("font", Globals.console_font)
 
 
+func _physics_process(delta):
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_released("console_up"):
+	if tab_hits_life > 0:
+		tab_hits_life -= 1
+	else:
+		tab_hits = []
+	if Input.is_action_just_pressed("tabkey"):
+		if len(input_node.text) > 0 and len(tab_hits) == 0:
+			var command_keys = []
+			for key in Globals.get_commands():
+				if Globals.com_enabled(key):
+					command_keys.append(key)
+			if Globals.com_enabled('move'):
+				command_keys += ['move up', 'move down', 'move left', 'move right']
+			for key in command_keys:
+				if key.begins_with(input_node.text):
+					tab_hits.append(key)
+			if len(tab_hits) > 0:
+				input_node.text = tab_hits[0]
+				input_node.caret_position = len(input_node.text)
+				tab_hits_life = tab_hits_index_lifespan
+		elif len(tab_hits) > 0:
+			tab_hits_index += 1
+			tab_hits_index = tab_hits_index % len(tab_hits)
+			input_node.text = tab_hits[tab_hits_index]
+			input_node.caret_position = len(input_node.text)
+			tab_hits_life = tab_hits_index_lifespan
+	if Input.is_action_just_pressed("console_up"):
 		if len(command_history) == 0:
 			return
 		if command_history_index == -1:
@@ -41,7 +78,7 @@ func _process(delta):
 		input_node.caret_position = len(input_node.text)
 
 		print("pressed up, index: %d" %command_history_index)
-	if Input.is_action_just_released("console_down"):
+	if Input.is_action_just_pressed("console_down"):
 		if len(command_history) == 0:
 			return
 		if command_history_index != -1:
@@ -88,7 +125,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 	if splitted_tlower.size()>1:
 		info1=splitted_tlower[1]
 	
-	if tlower == "exit":
+	if tlower == "exit" or tlower == ":q":
 		Commands.command_exit()
 	elif tlower == "move":
 		Commands.command_move_incomplete()
@@ -128,6 +165,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_restart()
 	else:
 		Commands.command_not_available()
+		Globals.play_error()
 
 
 func get_color(command: String) -> Color:
@@ -166,3 +204,13 @@ func send_log(log_text: String):
 	var messages = log_text.split('\n')
 	for msg in messages:
 		message_history.append(color + msg)
+		
+func _on_Input_gui_input(inp: InputEventKey):
+	if inp.is_pressed() and inp.as_text().to_lower() in ['backspace', 'enter']:
+		click_player.play()
+	if inp.is_pressed() and len(inp.as_text()) == 1:
+		click_player.play()
+		#print(ord(inp.as_text().to_lower()))
+		var key = ord(inp.as_text().to_lower())
+		if key >= 97 and key <= 122 or key >= 48 and key <= 57:
+			tab_hits = []
