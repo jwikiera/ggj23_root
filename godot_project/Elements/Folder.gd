@@ -17,9 +17,9 @@ var visited : bool
 
 var _cell_scene
 
-var texture_regular = load("res://Assets/cursor_pink.png")
-var texture_locked = load("res://Assets/folder_locked.png")
-var texture_unlocked = load("res://Assets/folder_unlocked.png")
+var texture_regular = load("res://Assets/Textures/cursor_pink.png")
+var texture_locked = load("res://Assets/Textures/folder_locked.png")
+var texture_unlocked = load("res://Assets/Textures/folder_unlocked.png")
 
 func set_icon():
 	if len(password_access) > 1:

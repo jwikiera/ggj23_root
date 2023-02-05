@@ -43,25 +43,25 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_released("num_up"):
 		if Globals.player_coords.y == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.y -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if Input.is_action_just_released("num_down"):
 		if Globals.player_coords.y == Globals.current_folder.cell_amount_y - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.y += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if Input.is_action_just_released("num_left"):
 		if Globals.player_coords.x == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if Input.is_action_just_released("num_right"):
 		if Globals.player_coords.x == Globals.current_folder.cell_amount_x - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
@@ -117,25 +117,25 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 func _on_move_signal(direction: int) -> void:
 	if direction == Commands.DIRS.DIR_UP:
 		if Globals.player_coords.y == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.y -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if direction == Commands.DIRS.DIR_DOWN:
 		if Globals.player_coords.y == Globals.current_folder.cell_amount_y - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.y += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if direction == Commands.DIRS.DIR_LEFT:
 		if Globals.player_coords.x == 0:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x -= 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	if direction == Commands.DIRS.DIR_RIGHT:
 		if Globals.player_coords.x == Globals.current_folder.cell_amount_x - 1:
-			Globals.console.send_log("RED:Error! Position out of bounds.")
+			Globals.console.send_error("Error! Position out of bounds.")
 		else:
 			Globals.player_coords.x += 1
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
@@ -158,6 +158,7 @@ func _on_start_game_received():
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	label_timer.show()
 	label_nb_salles.show()
+	Globals.background_music.play()
 
 func _on_restart_received():
 	#remove_child(Globals.player)

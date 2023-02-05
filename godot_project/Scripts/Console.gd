@@ -208,7 +208,9 @@ func invite_len() -> float:
 func draw_invite():
 	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 3), Globals.invite_text)
 	
-func send_log(log_text: String):
+func send_log(log_text: String, play_sound=true):
+	if play_sound:
+		Globals.play_message()
 	var color = ""
 	for key in Globals.COLORS.keys():
 		if log_text.begins_with(key + ':'):
@@ -217,6 +219,10 @@ func send_log(log_text: String):
 	var messages = log_text.split('\n')
 	for msg in messages:
 		message_history.append(color + msg)
+		
+func send_error(log_text: String):
+	Globals.play_error()
+	message_history.append("RED:" + log_text)
 		
 func _on_Input_gui_input(inp: InputEventKey):
 	if inp.is_pressed() and inp.as_text().to_lower() in ['backspace', 'enter']:

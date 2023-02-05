@@ -12,8 +12,14 @@ var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
 var timer_maximal: float = 5*60
 var timer_principal: float = timer_maximal # en seconde
+
 var intro_music
+var background_music
 var error_sound
+var chdir_sound
+var message_sound
+var engage_sound
+var boot_sound
 
 var _grid_margin = 12
 var _console_width: float = 30 #(percentage)
@@ -120,10 +126,22 @@ func _ready():
 	console_font.font_data = load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
 	console = load("res://Scenes/Console.tscn").instance()
+	
 	player = load("res://Player/Player.tscn").instance()
 	intro_music = load("res://Scenes/intro_music.tscn").instance()
+	background_music = load("res://Scenes/background_music.tscn").instance()
+	console.add_child(background_music)
 	error_sound = load("res://Scenes/error_sound.tscn").instance()
 	console.add_child(error_sound)
+	chdir_sound = load("res://Scenes/chdir_sound.tscn").instance()
+	console.add_child(chdir_sound)
+	boot_sound = load("res://Scenes/boot_sound.tscn").instance()
+	console.add_child(boot_sound)
+	engage_sound = load("res://Scenes/engage_sound.tscn").instance()
+	console.add_child(engage_sound)
+	message_sound = load("res://Scenes/message_sound.tscn").instance()
+	console.add_child(message_sound)
+	
 	#print(console_font.size)
 	root = load("res://Elements/Folder.tscn").instance()
 	root.Initialize(null, Vector2(0,0), Element.Type.FOLDER, Element.Protection.ROUGE, "password4")
@@ -180,6 +198,7 @@ func restart():
 	timer_principal = timer_maximal
 	has_succeeded=false
 	has_failed=false
+	Globals.intro_music.play()
 
 
 func game_over():
@@ -189,8 +208,10 @@ func game_over():
 		yield(get_tree().create_timer(1.5), "timeout")
 		console.send_log('RED:GAME OVER !')
 		yield(get_tree().create_timer(2.0), "timeout")
-		console.send_log("RED:'RESTART' to play again")
+		console.send_error("'RESTART' to play again")
 		emit_signal("game_over")
+		Globals.intro_music.play()
+		Util.fade_out_audio(Globals.background_music, 10)
 	
 func get_console_width() -> float:
 	return get_viewport().size.x / 100 * Globals._console_width
@@ -390,3 +411,16 @@ func generate_random_password()->String:
 
 func play_error():
 	error_sound.play()
+	
+func play_boot():
+	boot_sound.play()
+	
+func play_chdir():
+	chdir_sound.play()
+	
+func play_message():
+	message_sound.play()
+	
+func play_engage():
+	engage_sound.play()
+

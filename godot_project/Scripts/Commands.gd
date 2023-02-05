@@ -21,7 +21,7 @@ func _ready():
 	pass # Replace with function body.
 
 func command_not_available():
-	Globals.console.send_log("RED:Command not found or unavailable")
+	Globals.console.send_error("Command not found or unavailable")
 
 func command_exit():
 	print("Command exit")
@@ -34,7 +34,7 @@ func command_move_incomplete():
 	if not Globals.com_enabled('move'):
 		command_not_available()
 		return
-	Globals.console.send_log("RED:Missing argument")
+	Globals.console.send_error("Missing argument")
 
 func command_up():
 	print('doing command up')
@@ -95,28 +95,28 @@ func command_download(password):
 						element.delete()
 					else:
 						#pas sur un dossier
-						Globals.console.send_log("RED:Not a file")
+						Globals.console.send_error("Not a file")
 						Globals.play_error()
 				else:
 					Globals.console.send_log("YELLOW:Unzip before accessing")
 					Globals.play_error()
 			elif password=="":
-				Globals.console.send_log("RED:Password required")
+				Globals.console.send_error("Password required")
 				Globals.play_error()
 			else:
-				Globals.console.send_log("RED:Password incorrect")
+				Globals.console.send_error("Password incorrect")
 				Globals.play_error()
 				
 				
 			
 		else:
-			Globals.console.send_log("RED:Access denied")
-			Globals.console.send_log("RED:Higher privileges required")
+			Globals.console.send_error("Access denied")
+			Globals.console.send_error("Higher privileges required")
 			Globals.play_error()
 			
 	else:
 		#pas sur un dossier
-		Globals.console.send_log("RED:Not a file")
+		Globals.console.send_error("Not a file")
 		Globals.play_error()
 
 func command_passwords():
@@ -149,16 +149,17 @@ func command_cd(password:String):
 				if true: #zip
 					#si ok, changer de folder
 					emit_signal("change_dir", element, element==Globals.current_folder.parent)
-					Globals.console.send_log("YELLOW:Changed directory")
+					Globals.console.send_log("YELLOW:Changed directory", false)
+					Globals.play_chdir()
 				else:
 					Globals.console.send_log("YELLOW:Unzip before accessing")
 			elif password=="":
-				Globals.console.send_log("RED:Password required")
+				Globals.console.send_error("Password required")
 			else:
-				Globals.console.send_log("RED:Password incorrect")
+				Globals.console.send_error("Password incorrect")
 		else:
-			Globals.console.send_log("RED:Access denied")
-			Globals.console.send_log("RED:Higher privileges required")
+			Globals.console.send_error("Access denied")
+			Globals.console.send_error("Higher privileges required")
 	else:
 		#pas sur un dossier
 		Globals.console.send_log("YELLOW:Not a directory")
@@ -183,6 +184,7 @@ func command_boot():
 	yield(get_tree().create_timer(0.5), "timeout")
 	Globals.console.send_log('Booting main system')
 	yield(get_tree().create_timer(0.3), "timeout")
+	Globals.play_boot()
 	Globals.console.send_log('Seed estimate %d' % Globals.seed_)
 	yield(get_tree().create_timer(0.7), "timeout")
 	Globals.console.send_log('Init complete')
@@ -200,6 +202,7 @@ func command_engage():
 		return
 	Globals.disable_command('engage')
 	yield(get_tree().create_timer(0.2), "timeout")
+	Globals.play_engage()
 	Globals.console.send_log('...')
 	yield(get_tree().create_timer(0.4), "timeout")
 	Globals.console.send_log('Connection with sytem established')

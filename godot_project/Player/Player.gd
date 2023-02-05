@@ -2,8 +2,8 @@ extends KinematicBody2D
 
 var velocity: Vector2 = Vector2.ZERO
 var sprite_node: Sprite
-var texture1 = load("res://Assets/cursor_pink.png")
-var texture2 = load("res://Assets/cursor_pink_v2.png")
+var texture1 = load("res://Assets/Textures/cursor_pink.png")
+var texture2 = load("res://Assets/Textures/cursor_pink_v2.png")
 
 var list_passwords : Array
 var nb_checkpoints : int

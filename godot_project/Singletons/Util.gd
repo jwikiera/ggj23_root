@@ -23,4 +23,4 @@ func fade_out_audio(audio_stream_player, length: int):
 	for i in range(length):
 		audio_stream_player.volume_db -= 1
 		yield(get_tree().create_timer(0.3), "timeout")
-	audio_stream_player.playing = false
+	audio_stream_player.stop()

@@ -4,8 +4,8 @@
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/crt_shader.gd" type="Script" id=3]
 [ext_resource path="res://Fonts/timer_font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://Assets/Interface/INTERFACE_success.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Interface/INTERFACE_game_over.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Textures/Interface/INTERFACE_success.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Textures/Interface/INTERFACE_game_over.png" type="Texture" id=6]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
