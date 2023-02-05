@@ -90,6 +90,12 @@ func _process(delta):
 				input_node.text = get_text(command_history[command_history_index])
 				input_node.caret_position = len(input_node.text)
 		print("pressed down, index: %d" %command_history_index)
+	if Input.is_action_just_pressed("caret_left"):
+		input_node.caret_position = 0
+	if Input.is_action_just_pressed("caret_right"):
+		input_node.caret_position = len(input_node.text)
+	if Input.is_action_just_pressed("clear_input"):
+		input_node.text = ""
 	update()
 
 func get_console_x() -> float:
