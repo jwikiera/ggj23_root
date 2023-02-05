@@ -7,6 +7,7 @@ signal unzip(folder)
 signal download(element)
 signal start_game()
 signal toggle_shader()
+signal restart()
 
 const DIRS = {
 	DIR_UP = 0,
@@ -215,3 +216,5 @@ func command_help():
 			res += '\n   * ' + Globals._commands[command]['full_name']
 	Globals.console.send_log(res)
 
+func command_restart():
+	emit_signal("restart")

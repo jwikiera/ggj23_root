@@ -124,6 +124,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_skip()
 	elif tlower == "all_passwords":
 		Commands.command_all_passwords()
+	elif tlower == "restart":
+		Commands.command_restart()
 	else:
 		Commands.command_not_available()
 

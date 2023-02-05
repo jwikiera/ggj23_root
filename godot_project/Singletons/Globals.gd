@@ -6,7 +6,8 @@ var player
 var player_coords: Vector2 
 var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
-var timer_principal:float = 60 # en seconde
+var timer_maximal:float=5
+var timer_principal:float = timer_maximal # en seconde
 var intro_music
 
 var _console_width: float = 30 #(percentage)
@@ -22,6 +23,11 @@ var _grid_margin = 12
 
 var passwords_dictionnary
 
+var has_succeeded : bool
+var has_failed : bool
+
+signal victory()
+signal game_over()
 
 var COLORS = {
 	"RED": Color('#D45769'),
@@ -73,6 +79,10 @@ var _commands = {
 		'enabled':false,
 		'full_name':"play"
 		},
+	'restart':{
+		'enabled':false,
+		'full_name':"restart"
+		},
 	'exit': {
 		'enabled':true,
 		'full_name':"exit"
@@ -91,10 +101,17 @@ func disable_command(command: String) -> void:
 func com_enabled(command: String) -> bool:
 	return _commands[command]['enabled'] 
 
+func restart_commands():
+	for command in _commands.keys():
+		_commands[command]['enabled']  = false
+	_commands['exit']['enabled'] = true
+	_commands['boot']['enabled'] = true
 
 func _ready():
 	print("Globals ready")
 	seed(seed_)
+	has_succeeded=false
+	has_failed=false
 	console_font = DynamicFont.new()
 	console_font.font_data = load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
@@ -112,32 +129,72 @@ func _ready():
 	#current_folder.initialize_scene(self)
 	#root.print()
 
+func restart():
+	print("Globals restart")
+	seed(seed_)
+	player = load("res://Player/Player.tscn").instance()
+	#retirer children de root
+	for i in root.children:
+		i.queue_free()
+	root.children=[]
+	#regenerer une map toute neuve
+	generate_sous_dossier(root)
+	generate_passwords_dictionnary()
+	restart_commands()
+	game_has_started = false
+	has_greeted = false
+	#mettre musique
+	timer_principal = timer_maximal
+	has_succeeded=false
+	has_failed=false
+	
 func _process(delta):
-	timer_principal -= delta
+	if game_has_started and !has_failed and !has_succeeded:
+		timer_principal -= delta
 	
 	if timer_principal<=0:
+		timer_principal=0
 		game_over()
 	
+#	if current_folder==root:
 	if current_folder==root:
 		victory()
 
 
 
-func game_over():
-	pass
-	
 func victory():
-	pass
-	
+	if(!has_succeeded):
+		has_succeeded=true
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log('YELLOW:Root folder reached')
+		yield(get_tree().create_timer(1.3), "timeout")
+		console.send_log('...')
+		yield(get_tree().create_timer(1.5), "timeout")
+		console.send_log('YELLOW:Congratulation !')
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log("YELLOW:'RESTART' to play again")
+		emit_signal("victory")
+
+func game_over():
+	if(!has_failed):
+		has_failed=true
+		console.send_log('RED:TIME OUT')
+		yield(get_tree().create_timer(1.5), "timeout")
+		console.send_log('RED:GAME OVER !')
+		yield(get_tree().create_timer(2.0), "timeout")
+		console.send_log("RED:'RESTART' to play again")
+		emit_signal("game_over")
+
+
 func get_console_width() -> float:
 	return get_viewport().size.x / 100 * Globals._console_width
-	
+
 func get_x_grid_margin():
 	return (get_viewport().size.x - get_console_width()) / 100 * _grid_margin
-	
+
 func get_y_grid_margin():
 	return get_viewport().size.y / 100 * _grid_margin
-	
+
 ###########################
 # CREATION DE LA MAP
 ###########################
@@ -284,6 +341,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		# DOSSIER 4 (Suite du chemin)
 		addFolder(dossier, Vector2(1,1))
 		current_folder=dossier.lastChildren()
+		#current_folder=root
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==1:
@@ -294,6 +352,9 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 func get_nb_visited_folders()->int:
 	return root.get_nb_visited_folders();
+	
+func get_nb_folders()->int:
+	return root.get_nb_folders();
 
 func print_timer()->String:
 	var secondes = int(timer_principal) % 60

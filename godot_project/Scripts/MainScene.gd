@@ -2,6 +2,12 @@ extends Node2D
 
 
 
+var ecran_victory:Sprite
+var ecran_game_over:Sprite
+
+var label_timer:Label
+var label_nb_salles:Label
+
 func print_welcome():
 	yield(get_tree().create_timer(3.0), "timeout")
 	if not Globals.has_greeted:
@@ -20,14 +26,34 @@ func _ready():
 	Commands.connect("move", self, "_on_move_signal")
 	Commands.connect("change_dir", self, "_on_change_dir_signal")
 	Commands.connect("start_game", self, "_on_start_game_received")
-
+	Commands.connect("restart", self, "_on_restart_received")
+	Globals.connect("victory", self, "_on_victory_received")
+	Globals.connect("game_over", self, "_on_game_over_received")
+	ecran_victory=get_node("EcranVictory")
+	ecran_game_over=get_node("EcranGameOver")
+	label_timer=get_node("Timer")
+	label_nb_salles=get_node("NbSalles")
+	ecran_victory.hide()
+	ecran_game_over.hide()
+	label_timer.hide()
+	label_nb_salles.hide()
+	
+	
 
 	#var folder_ = load("res://Elements/Folder.tscn")
 	#var folder = folder_.instance()
-	
 
+func _on_restart_received():
+	#remove_child(Globals.player)
+	Globals.player.queue_free()
+	print_welcome()
+	ecran_victory.hide()
+	ecran_game_over.hide()
 	
-		
+	Globals.current_folder.delete_scene(self)
+	Globals.restart()
+	
+	
 
 func _process(delta):
 	if Input.is_action_just_released("num_up"):
@@ -56,8 +82,14 @@ func _process(delta):
 			Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	
 	update()
+	label_timer.text = Globals.print_timer()
+	label_nb_salles.text = str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
 
+func _on_victory_received():
+	ecran_victory.show()
 
+func _on_game_over_received():
+	pass
 ###########################
 # CHANGEMENT DE FOLDER
 ###########################
@@ -133,7 +165,10 @@ func _on_start_game_received():
 	Globals.player.set_position(GridUtils.get_physical_coords_of_grid_index(Globals.current_folder, Globals.player_coords))
 	GridUtils.scale_sprite_node(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
-	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
+	#GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
+
+	label_timer.show()
+	label_nb_salles.show()
 
 ###########################
 # DRAWING

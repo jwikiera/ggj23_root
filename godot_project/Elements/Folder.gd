@@ -214,6 +214,15 @@ func get_nb_visited_folders()->int:
 	
 	return nb
 
+# Compter le nombre de "salles" total
+func get_nb_folders()->int:
+	var nb = 0;
+	for i in range(children.size()):
+		if children[i].type==Element.Type.FOLDER:
+			nb += children[i].get_nb_folders()
+	nb+=1
+	
+	return nb
 
 		
 #	if direction == Commands.DIRS.DIR_UP:

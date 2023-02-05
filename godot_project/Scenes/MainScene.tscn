@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/crt_shader.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Interface/INTERFACE_menu.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Interface/INTERFACE_game_over.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Interface/INTERFACE_success.png" type="Texture" id=6]
+[ext_resource path="res://Themes/console_input_theme.tres" type="Theme" id=7]
+[ext_resource path="res://Fonts/calculator.tres" type="DynamicFont" id=8]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -318,3 +323,41 @@ margin_right = 1922.0
 margin_bottom = 1270.0
 texture = ExtResource( 2 )
 expand = true
+
+[node name="Interface" type="Sprite" parent="."]
+visible = false
+position = Vector2( 956.444, 539 )
+scale = Vector2( 0.237778, 0.237778 )
+texture = ExtResource( 4 )
+
+[node name="EcranVictory" type="Sprite" parent="."]
+visible = false
+position = Vector2( 663, 522 )
+scale = Vector2( 0.151351, 0.151351 )
+texture = ExtResource( 6 )
+
+[node name="EcranGameOver" type="Sprite" parent="."]
+visible = false
+position = Vector2( 684, 568 )
+scale = Vector2( 0.164325, 0.164325 )
+texture = ExtResource( 5 )
+
+[node name="Timer" type="Label" parent="."]
+margin_left = 67.0
+margin_top = 779.0
+margin_right = 470.0
+margin_bottom = 869.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 8 )
+text = "lolilol"
+
+[node name="NbSalles" type="Label" parent="."]
+margin_left = 908.0
+margin_top = 767.0
+margin_right = 1008.0
+margin_bottom = 891.0
+theme = ExtResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "lolilol"
+align = 2
