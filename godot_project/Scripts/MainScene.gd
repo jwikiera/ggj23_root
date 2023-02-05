@@ -136,7 +136,7 @@ func _on_change_dir_signal(new_folder:Folder, is_parent:bool):
 	add_child(Globals.player)
 	
 	# retirer mot de passe
-	Globals.current_folder.password_access=""
+	# Globals.current_folder.password_access=""
 	
 	print("POS : ")
 	print(Globals.current_folder )
@@ -214,6 +214,7 @@ func _on_restart_received():
 	label_timer.hide()
 	label_nb_salles.hide()
 	label_depth.hide()
+	label_folder.hide()
 
 	Globals.current_folder.delete_scene(self)
 	Globals.restart()

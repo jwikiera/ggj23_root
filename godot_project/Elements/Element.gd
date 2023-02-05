@@ -75,6 +75,8 @@ func Initialize(_parent, _position:Vector2, _type, _protection_level = Protectio
 	is_zipped=_is_zipped
 	set_icon()
 
+func refresh():
+	set_icon()
 
 func setPosition(pos : Vector2):
 	position = pos
