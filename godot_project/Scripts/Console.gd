@@ -11,9 +11,14 @@ var tab_hits_life = 0
 var tab_hits_index = 0
 var tab_hits_index_lifespan = 200
 
+var click_player
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	click_player = load("res://Scenes/keyboard_click.tscn").instance()
+	add_child(click_player)
+	print(click_player)
 	command_history_index = 0
 	print("console ready (width %d)" % Globals.get_console_width())
 	input_node = get_node("Input")
@@ -31,6 +36,9 @@ func _ready():
 #	input_node.theme.set_font("lol", "Dynamic", Globals.console_font)
 	input_node.add_font_override("font", Globals.console_font)
 
+
+func _physics_process(delta):
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -117,7 +125,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 	if splitted_tlower.size()>1:
 		info1=splitted_tlower[1]
 	
-	if tlower == "exit":
+	if tlower == "exit" or tlower == ":q":
 		Commands.command_exit()
 	elif tlower == "move":
 		Commands.command_move_incomplete()
@@ -153,6 +161,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_skip()
 	else:
 		Commands.command_not_available()
+		Globals.play_error()
 
 
 func get_color(command: String) -> Color:
@@ -193,8 +202,11 @@ func send_log(log_text: String):
 		message_history.append(color + msg)
 		
 func _on_Input_gui_input(inp: InputEventKey):
+	if inp.is_pressed() and inp.as_text().to_lower() in ['backspace', 'enter']:
+		click_player.play()
 	if inp.is_pressed() and len(inp.as_text()) == 1:
-		print(ord(inp.as_text().to_lower()))
+		click_player.play()
+		#print(ord(inp.as_text().to_lower()))
 		var key = ord(inp.as_text().to_lower())
 		if key >= 97 and key <= 122 or key >= 48 and key <= 57:
 			tab_hits = []
