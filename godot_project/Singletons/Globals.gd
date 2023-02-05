@@ -4,7 +4,7 @@ extends Node2D
 var console
 var player
 var player_coords: Vector2 
-var root:Folder # représente l'entièreté de la map
+var root: Folder # représente l'entièreté de la map
 var current_folder: Folder
 var timer_principal:float = 60 # en seconde
 var intro_music

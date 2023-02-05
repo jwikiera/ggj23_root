@@ -57,6 +57,8 @@ func set_position_in_grid(pos:Vector2):
 #func _process(delta):
 #	pass
 
+func set_icon():
+	pass
 
 func Initialize(_parent, _position:Vector2, _type, _protection_level = Protection.JAUNE, _password="", _is_zipped = false):
 	parent = _parent
@@ -70,6 +72,7 @@ func Initialize(_parent, _position:Vector2, _type, _protection_level = Protectio
 	protection_level=_protection_level
 	password_access=_password
 	is_zipped=_is_zipped
+	set_icon()
 
 
 func setPosition(pos : Vector2):
