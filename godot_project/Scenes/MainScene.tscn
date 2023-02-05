@@ -328,14 +328,23 @@ margin_top = 998.0
 margin_right = 167.0
 margin_bottom = 1012.0
 custom_fonts/font = ExtResource( 4 )
-text = "testerino"
+text = "Timer"
 
 [node name="NbSalles" type="Label" parent="."]
-margin_left = 505.0
-margin_top = 993.0
-margin_right = 545.0
-margin_bottom = 1031.0
+margin_left = 352.0
+margin_top = 987.0
+margin_right = 497.0
+margin_bottom = 1025.0
 custom_fonts/font = ExtResource( 4 )
+text = "Nb Salles"
+
+[node name="Depth" type="Label" parent="."]
+margin_left = 869.0
+margin_top = 986.0
+margin_right = 953.0
+margin_bottom = 1024.0
+custom_fonts/font = ExtResource( 4 )
+text = "Depth"
 
 [node name="EcranVictory" type="Sprite" parent="."]
 visible = false

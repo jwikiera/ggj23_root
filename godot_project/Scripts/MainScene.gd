@@ -5,6 +5,7 @@ var ecran_victory: Sprite
 var ecran_game_over: Sprite
 var label_timer: Label
 var label_nb_salles: Label
+var label_depth: Label
 
 
 func print_welcome():
@@ -34,10 +35,12 @@ func _ready():
 	ecran_game_over=get_node("EcranGameOver")
 	label_timer=get_node("Timer")
 	label_nb_salles=get_node("NbSalles")
+	label_depth=get_node("Depth")
 	ecran_victory.hide()
 	ecran_game_over.hide()
 	label_timer.hide()
 	label_nb_salles.hide()
+	label_depth.hide()
 		
 
 func _process(delta):
@@ -68,8 +71,11 @@ func _process(delta):
 	
 	update()
 	label_timer.text = Globals.print_timer()
-	label_nb_salles.text = str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
-
+	label_nb_salles.text = "Folders discovered: "+str(Globals.get_nb_visited_folders()) + "/" + str(Globals.get_nb_folders())
+	if Globals.root!=null:
+		label_depth.text = "Depth: " +str(Globals.root.get_depth())
+	else:
+		label_depth.text = ""
 
 func _on_victory_received():
 	ecran_victory.show()
@@ -160,6 +166,8 @@ func _on_start_game_received():
 	label_timer.rect_position.y = get_viewport().size.y / 100 * 93
 	label_nb_salles.show()
 	label_nb_salles.rect_position.y = get_viewport().size.y / 100 * 93
+	label_depth.show()
+	label_depth.rect_position.y = get_viewport().size.y / 100 * 93
 	Globals.background_music.play()
 
 func _on_restart_received():

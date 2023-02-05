@@ -176,6 +176,18 @@ func addTuto(_position:Vector2, command:String, explanation:String, _protection_
 		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 
+func addSablier(_position:Vector2):
+		var scene_folder = load("res://Elements/Sablier.tscn")
+		var child = scene_folder.instance()	
+		#var child = PriviledgeFile.new()
+			
+		child.Initialize(self,
+						_position,
+						Element.Type.SABLIER)
+		child.position_grid = Globals.get_position_randomly(self)
+		children.append(child)
+
+
 ######################
 # ACCESSEURS BASIQUE #
 ######################
@@ -222,3 +234,9 @@ func get_nb_folders()->int:
 	nb+=1
 	
 	return nb
+
+func get_depth()->int:
+	if children.size()>0:
+		return 1+lastChildren().get_depth()
+	else:
+		return 1

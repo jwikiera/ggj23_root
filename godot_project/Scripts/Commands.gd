@@ -93,6 +93,10 @@ func command_download(password):
 						if element.explanation!="":
 							Globals.console.send_log("CYAN:"+element.explanation)
 						element.delete()
+					elif element.type==Element.Type.SABLIER:
+						Globals.console.send_log("YELLOW:"+str(element.additionnal_time)+" seconds added")
+						Globals.timer_principal += element.additionnal_time
+						element.delete()
 					else:
 						#pas sur un dossier
 						Globals.console.send_error("Not a file")
