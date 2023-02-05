@@ -15,4 +15,5 @@ middle_mouse_paste_enabled = false
 selecting_enabled = false
 caret_blink = true
 
+[connection signal="gui_input" from="Input" to="." method="_on_Input_gui_input"]
 [connection signal="text_entered" from="Input" to="." method="_on_Input_text_entered"]

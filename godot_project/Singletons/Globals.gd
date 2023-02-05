@@ -77,6 +77,10 @@ var _commands = {
 		'enabled':true,
 		'full_name':"exit"
 		},
+	'help': {
+		'enabled':true,
+		'full_name':"help"
+		},
 }
 
 func get_commands():
