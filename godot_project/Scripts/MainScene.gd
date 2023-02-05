@@ -114,7 +114,7 @@ func _on_game_over_received():
 	Globals.play_boot()
 	ecran_game_over.show()
 	
-	get_node("EcranGameOver/MessageFin").text="00:00\n\nYou have visited " + str(round(float(Globals.get_nb_visited_folders())/Globals.get_nb_folders()*100))+ "% of the folders\n\n'RESTART'\n\nor\n\n'EXIT'"
+	get_node("EcranGameOver/MessageFin").text="00:00\n\nYou have visited " + str(round(float(Globals.get_nb_visited_folders())/Globals.get_nb_folders()*100))+ "% of the folders\n\n'RESTART'\n'CREDITS'\n\nor\n'EXIT'"
 
 
 ###########################

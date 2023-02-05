@@ -277,40 +277,48 @@ func generate_sous_dossier(dossier, level:int=8):
 	if level==8:
 		# DOSSIER 1 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password5")
+		dossier.lastChildren().set_name("Admin")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==7:
 		# DOSSIER 1 (Password)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password6", true)
+		dossier.lastChildren().set_name("Pron")
 		dossier.lastChildren().addPassword(Vector2(0,0),"password4")
 		
 		# DOSSIER 2 (Password)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
+		dossier.lastChildren().set_name("Images")
 		dossier.lastChildren().addPassword(Vector2(0,0),"password6")
 		
 		# DOSSIER 3 (Vide)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
+		dossier.lastChildren().set_name("Video")
 											
 		# DOSSIER 4 (Vide)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE)
 											
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ROUGE, "password3")
+		dossier.lastChildren().set_name("Documents")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 	
 	elif level==6:
 		# DOSSIER 1 (TUTO ALIAS)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
+		dossier.lastChildren().set_name("Lolcats")
 		dossier.lastChildren().addSablier(Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Alias>)
 		
 		# DOSSIER 2 (TUTO LOOP)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "password2", true)
 		#dossier.lastChildren().addTuto(<Loop>)
+		dossier.lastChildren().set_name("Mom<3")
 		dossier.lastChildren().addTuto(Vector2(0,0), '', "Use CTRL+W to clear invite")
 		
 		# DOSSIER 3 (CHECKPOINT)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE, "", true)
+		dossier.lastChildren().set_name("UnfinishedGameJamProjects")
 		#dossier.lastChildren().addCheckpointFile(Vector2(0,0))
 		
 		# DOSSIER 4 (Mot de passe)
