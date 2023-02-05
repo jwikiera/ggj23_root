@@ -14,7 +14,7 @@ var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
 var console_font_size = 30
 var invite_text = '  ~> '
-var seed_ = 2023
+var seed_ = 42
 var has_greeted = false
 var game_has_started = false
 
@@ -27,34 +27,74 @@ var COLORS = {
 	"RED": Color('#D45769'),
 	"GREEN": Color(0, 1, 0),
 	"YELLOW": Color('#E69D45'),
-	"CYAN": Color('#30B695'),
-	"WHITE": Color(1, 1, 1)
+	"CYAN": Color('#308695'),
+	"WHITE": Color('#D4CFC9')
 }
 
 
 var _commands = {
-	'boot':  true,
-	'engage': false,
-	'move': false,
-	'cd': false,
-	'exit': true
+	'boot':  {
+		'enabled':true,
+		'full_name':"boot"
+		},
+	'engage': {
+		'enabled':false,
+		'full_name':"engage"
+		},
+	'move': {
+		'enabled':false,
+		'full_name':"move <direction>"
+		},
+	'cd': {
+		'enabled':false,
+		'full_name':"cd <optional_password>"
+		},
+	'download': {
+		'enabled':false,
+		'full_name':"download <optional_password>"
+		},
+	'passwords':{
+		'enabled':false,
+		'full_name':"passwords"
+		},
+	'unzip':{
+		'enabled':false,
+		'full_name':"unzip"
+		},
+	'checkpoint': {
+		'enabled':false,
+		'full_name':"checkpoint"
+		},
+	'pause':{
+		'enabled':false,
+		'full_name':"pause"
+		},
+	'play':{
+		'enabled':false,
+		'full_name':"play"
+		},
+	'exit': {
+		'enabled':true,
+		'full_name':"exit"
+		},
 }
 
 func get_commands():
 	return _commands.keys()
 
 func enable_command(command: String) -> void:
-	_commands[command] = true
+	_commands[command]['enabled'] = true
 	
 func disable_command(command: String) -> void:
-	_commands[command] = false
+	_commands[command]['enabled']  = false
 	
 func com_enabled(command: String) -> bool:
-	return _commands[command]
+	return _commands[command]['enabled'] 
 
 
 func _ready():
 	print("Globals ready")
+	seed(seed_)
 	console_font = DynamicFont.new()
 	console_font.font_data = load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
@@ -172,7 +212,7 @@ func generate_sous_dossier(dossier, level:int=8):
 	elif level==5:
 		# DOSSIER 1 (TUTO CHECKPOINT)
 		addFolder(dossier, Vector2(0,0))
-		#dossier.lastChildren().addTuto(<Checkpoint>)
+		#dossier.lastChildren().addTuto(Vector2(0,0), 'checkpoint', "")
 		
 		# DOSSIER 2 (Vide )
 		addFolder(dossier, Vector2(0,0))
@@ -187,13 +227,14 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "password1")
+		#dossier.lastChildren().addTuto(Vector2(0,0), 'unzip', "")
 		generate_sous_dossier(dossier.lastChildren(), level-1)
 		
 	elif level==4:
 		# DOSSIER 1 (Privilège orange)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
 		dossier.lastChildren().addPriviledge(Vector2(0,0), Element.Protection.ORANGE)
-		#dossier.lastChildren().addTuto(<Priviledge>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "You can access\nmore folders with\nhigher privileges")
 		
 		# DOSSIER 2 (Mot de passe)
 		addFolder(dossier, Vector2(0,0), Element.Protection.ORANGE)
@@ -205,7 +246,7 @@ func generate_sous_dossier(dossier, level:int=8):
 		
 		# DOSSIER 4 (Tuto back)
 		addFolder(dossier, Vector2(0,0), Element.Protection.JAUNE, "", true)
-		#dossier.lastChildren().addTuto(<Back>)
+		dossier.lastChildren().addTuto(Vector2(0,0), '', "Go through commands\nhistory with\n'KEY_UP' and 'KEY_DOWN'")
 		
 		# DOSSIER 5 (Suite du chemin)
 		addFolder(dossier, Vector2(0,0))
@@ -215,13 +256,14 @@ func generate_sous_dossier(dossier, level:int=8):
 		# DOSSIER 1 (Password)
 		addFolder(dossier, Vector2(0,0))
 		dossier.lastChildren().addPassword(Vector2(0,0), "password1" )
+		dossier.lastChildren().addTuto(Vector2(0,0), 'passwords', "")
 		
 		# DOSSIER 2 (Tuto Tab)
 		addFolder(dossier, Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Tab>)
 		
 		# DOSSIER 3 (Tuto Download)
-		addFolder(dossier, Vector2(0,0))
+		#addFolder(dossier, Vector2(0,0))
 		#dossier.lastChildren().addTuto(<Downloadk>)
 		
 		
