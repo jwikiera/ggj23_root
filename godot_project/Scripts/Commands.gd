@@ -71,7 +71,7 @@ func command_download(password):
 
 	if element!=null:
 		if Globals.player.priviledge_level>=element.protection_level:#check privilèges:
-			if element.password_access=="" or Globals.passwords_dictionnary[element.password_access]==password.to_upper():#check mot de passe
+			if element.password_access=="" or element.visited or Globals.passwords_dictionnary[element.password_access]==password.to_upper():#check mot de passe
 				if true: #zip
 					#si ok, changer de folder
 					if element.type==Element.Type.CHECKPOINT_FILE:
@@ -149,7 +149,7 @@ func command_cd(password:String):
 #			if element.password_access!="":
 #				print("2." + Globals.passwords_dictionnary[element.password_access])
 #			print("3." + password)
-			if element.password_access=="" or Globals.passwords_dictionnary[element.password_access]==password.to_upper():#check mot de passe
+			if element.password_access=="" or element.visited or Globals.passwords_dictionnary[element.password_access]==password.to_upper():#check mot de passe
 				if true: #zip
 					#si ok, changer de folder
 					emit_signal("change_dir", element, element==Globals.current_folder.parent)

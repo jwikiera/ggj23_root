@@ -21,9 +21,17 @@ var texture_regular = load("res://Assets/Textures/cursor_pink.png")
 var texture_locked = load("res://Assets/Textures/folder_locked.png")
 var texture_unlocked = load("res://Assets/Textures/folder_unlocked.png")
 
+func refresh():
+	set_icon()
+
 func set_icon():
-	if len(password_access) > 1:
+	print("=======")
+	print("set icon "+ password_access + " " + str(visited))
+	
+	if len(password_access) > 1 and !visited:
 		get_node("Sprite").texture = texture_locked
+	elif len(password_access)>1 and visited:
+		get_node("Sprite").texture = texture_unlocked
 
 func _ready():
 	print("Folder scene loaded " + name_element)
@@ -77,10 +85,12 @@ func initialize_scene(node_source:Node2D):
 	if parent!=null:
 		node_source.add_child(parent)
 		parent.set_position_in_grid(parent.position_grid_parent)
+		parent.refresh()
 	
 	for i in range(children.size()):
 		node_source.add_child(children[i])
 		children[i].set_position_in_grid(children[i].position_grid)
+		children[i].refresh()
 	
 	visited=true
 
