@@ -75,6 +75,12 @@ func Initialize(_parent, _position:Vector2, _type, _protection_level = Protectio
 	is_zipped=_is_zipped
 	set_icon()
 
+func set_name(txt:String):
+	if parent!=null:
+		name_element=parent.name_element + "/"+ txt
+	else:
+		name_element="root"
+	
 func refresh():
 	set_icon()
 
