@@ -13,9 +13,11 @@ var current_folder: Folder
 var timer_maximal: float = 5*60
 var timer_principal: float = timer_maximal # en seconde
 var timer_enabled = true
+var showing_credits = false
 
 var intro_music
 var background_music
+var victory_music
 var error_sound
 var chdir_sound
 var message_sound
@@ -28,7 +30,7 @@ var dialog_margin = 5
 var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
-var console_font_size = 30
+var console_font_size = 20#30
 var invite_text = '  ~> '
 var seed_ = 42
 var has_greeted = false
@@ -98,6 +100,10 @@ var _commands = {
 		'enabled':true,
 		'full_name':"exit"
 		},
+	'credits': {
+		'enabled':false,
+		'full_name':"credits"
+		},
 	'help': {
 		'enabled':true,
 		'full_name':"help"
@@ -122,12 +128,13 @@ func restart_commands():
 		_commands[command]['enabled']  = false
 	_commands['exit']['enabled'] = true
 	_commands['boot']['enabled'] = true
+	_commands['help']['enabled'] = true
 
 func _ready():
 	print("Globals ready")
 	seed(seed_)
 	console_font = DynamicFont.new()
-	console_font.font_data = load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
+	console_font.font_data = load("res://Fonts/PixeloidMono.ttf") #load("res://Fonts/Calculator.ttf")#load("res://Fonts/digital-7.ttf") #load("res://Fonts/Calculator.ttf")
 	console_font.size = console_font_size
 	console = load("res://Scenes/Console.tscn").instance()
 	
@@ -135,6 +142,8 @@ func _ready():
 	intro_music = load("res://Scenes/intro_music.tscn").instance()
 	background_music = load("res://Scenes/background_music.tscn").instance()
 	console.add_child(background_music)
+	victory_music = load("res://Scenes/victory_music.tscn").instance()
+	console.add_child(victory_music)
 	error_sound = load("res://Scenes/error_sound.tscn").instance()
 	console.add_child(error_sound)
 	chdir_sound = load("res://Scenes/chdir_sound.tscn").instance()
@@ -173,6 +182,8 @@ func _process(delta):
 
 func victory():
 	if(not has_succeeded):
+		Util.fade_out_audio(Globals.background_music, 10)
+		Globals.victory_music.playing = true
 		has_succeeded=true
 		yield(get_tree().create_timer(2.0), "timeout")
 		console.send_log('YELLOW:Root folder reached')

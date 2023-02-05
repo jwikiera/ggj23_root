@@ -8,6 +8,7 @@ signal download(element)
 signal start_game()
 signal toggle_shader()
 signal restart()
+signal show_credits()
 
 const DIRS = {
 	DIR_UP = 0,
@@ -195,6 +196,7 @@ func enable_base_commands():
 	Globals.enable_command('move')
 	Globals.enable_command('download')
 	Globals.enable_command('restart')
+	Globals.enable_command('credits')
 
 func command_engage():
 	if not Globals.com_enabled('engage'):
@@ -244,3 +246,7 @@ func command_aezakmi():
 	
 func command_iamspeed():
 	Globals.numpad_moves = true
+	
+func command_credits():
+	Globals.showing_credits = true
+	emit_signal("show_credits")

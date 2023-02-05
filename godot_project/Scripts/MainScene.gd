@@ -83,6 +83,7 @@ func _on_victory_received():
 	ecran_victory.scale.y *= ratio
 	ecran_victory.position.x = (get_viewport().size.x - ecran_victory.texture.get_width() * ecran_victory.scale.x) / 2
 	ecran_victory.position.y = (get_viewport().size.y - ecran_victory.texture.get_height() * ecran_victory.scale.y) / 2
+	Globals.play_boot()
 	ecran_victory.show()
 
 
@@ -97,6 +98,7 @@ func _on_game_over_received():
 	ecran_game_over.scale.y *= ratio
 	ecran_game_over.position.x = (get_viewport().size.x - ecran_game_over.texture.get_width() * ecran_game_over.scale.x) / 2
 	ecran_game_over.position.y = (get_viewport().size.y - ecran_game_over.texture.get_height() * ecran_game_over.scale.y) / 2
+	Globals.play_boot()
 	ecran_game_over.show()
 
 
@@ -184,6 +186,7 @@ func _on_start_game_received():
 	Globals.background_music.play()
 
 func _on_restart_received():
+	Util.fade_out_audio(Globals.victory_music, 10)
 	#remove_child(Globals.player)
 	Globals.player.queue_free()
 	print_welcome()

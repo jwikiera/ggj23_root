@@ -1,6 +1,8 @@
 extends Node2D
 
 
+signal hide_credits()
+
 var input_node: LineEdit
 
 var message_history = []
@@ -96,6 +98,10 @@ func _process(delta):
 		input_node.caret_position = len(input_node.text)
 	if Input.is_action_just_pressed("clear_input"):
 		input_node.text = ""
+	if Input.is_action_just_pressed("escape"):
+		if Globals.showing_credits:
+			Globals.showing_credits = false
+			emit_signal("hide_credits")
 	update()
 
 func get_console_x() -> float:
@@ -114,12 +120,12 @@ func _draw():
 
 
 func add_to_message_history(message: String):
-	message_history.append(message)
+	message_history.append(message.to_upper())
 	if len(message_history) > 27:
 		message_history.remove(0)
 		
 func add_to_command_history(message: String):
-	command_history.append(message)
+	command_history.append(message.to_upper())
 	if len(command_history) > 10:
 		command_history.remove(0)
 	add_to_message_history(message)
@@ -195,6 +201,8 @@ func _on_Input_text_entered(new_text: String) -> void:
 		Commands.command_help()
 	elif tlower == 'boot':
 		Commands.command_boot()
+	elif tlower == 'credits':
+		Commands.command_credits()
 	elif tlower == 'engage':
 		Commands.command_engage()
 	else:
@@ -227,7 +235,7 @@ func invite_len() -> float:
 	return Globals.console_font.get_string_size(Globals.invite_text).x
 
 func draw_invite():
-	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 3), Globals.invite_text)
+	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 1.5), Globals.invite_text)
 	
 func send_log(log_text: String, play_sound=true):
 	if play_sound:
@@ -254,6 +262,8 @@ func _on_Input_gui_input(inp: InputEventKey):
 		#print(ord(inp.as_text().to_lower()))
 		var key = ord(inp.as_text().to_lower())
 		if key >= 97 and key <= 122 or key >= 48 and key <= 57:
+			#input_node.text = input_node.text.to_upper()
+			#input_node.caret_position = len(input_node.text)
 			tab_hits = []
 			
 func clear_history():
