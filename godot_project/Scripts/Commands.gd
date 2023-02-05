@@ -242,3 +242,9 @@ func command_victory():
 func command_gameover():
 	Globals.game_over()
 
+func command_aezakmi():
+	Globals.timer_enabled = false
+	Globals.play_aezakmi()
+	
+func command_iamspeed():
+	Globals.numpad_moves = true
