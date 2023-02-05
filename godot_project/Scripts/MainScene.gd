@@ -73,10 +73,30 @@ func _process(delta):
 
 
 func _on_victory_received():
+	var sprite_height = ecran_victory.texture.get_height()
+	var viewport_height = get_viewport().size.y
+	var target_height = viewport_height - viewport_height / 100 * Globals.dialog_margin * 2
+	var ratio: float = target_height / sprite_height
+	ecran_victory.scale.x = 1
+	ecran_victory.scale.y = 1
+	ecran_victory.scale.x *= ratio
+	ecran_victory.scale.y *= ratio
+	ecran_victory.position.x = (get_viewport().size.x - ecran_victory.texture.get_width() * ecran_victory.scale.x) / 2
+	ecran_victory.position.y = (get_viewport().size.y - ecran_victory.texture.get_height() * ecran_victory.scale.y) / 2
 	ecran_victory.show()
 
 
 func _on_game_over_received():
+	var sprite_height = ecran_game_over.texture.get_height()
+	var viewport_height = get_viewport().size.y
+	var target_height = viewport_height - viewport_height / 100 * Globals.dialog_margin * 2
+	var ratio: float = target_height / sprite_height
+	ecran_game_over.scale.x = 1
+	ecran_game_over.scale.y = 1
+	ecran_game_over.scale.x *= ratio
+	ecran_game_over.scale.y *= ratio
+	ecran_game_over.position.x = (get_viewport().size.x - ecran_game_over.texture.get_width() * ecran_game_over.scale.x) / 2
+	ecran_game_over.position.y = (get_viewport().size.y - ecran_game_over.texture.get_height() * ecran_game_over.scale.y) / 2
 	ecran_game_over.show()
 
 

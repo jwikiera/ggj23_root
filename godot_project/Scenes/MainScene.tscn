@@ -341,11 +341,13 @@ custom_fonts/font = ExtResource( 4 )
 
 [node name="EcranVictory" type="Sprite" parent="."]
 visible = false
-position = Vector2( 925, 518 )
+position = Vector2( 568, 320 )
 z_index = 10
 texture = ExtResource( 5 )
+offset = Vector2( 568, 320 )
 
 [node name="EcranGameOver" type="Sprite" parent="."]
-position = Vector2( 928, 558 )
+visible = false
 z_index = 10
 texture = ExtResource( 6 )
+offset = Vector2( 568, 320 )

@@ -24,6 +24,7 @@ var boot_sound
 var aezakmi_sound
 
 var _grid_margin = 12
+var dialog_margin = 5
 var _console_width: float = 30 #(percentage)
 var console_color: Color = Color(0, 0, 0)
 var console_font: DynamicFont
