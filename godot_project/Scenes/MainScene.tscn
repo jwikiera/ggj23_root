@@ -348,6 +348,7 @@ offset = Vector2( 568, 320 )
 
 [node name="EcranGameOver" type="Sprite" parent="."]
 visible = false
+position = Vector2( 568, 312 )
 z_index = 10
 texture = ExtResource( 6 )
-offset = Vector2( 568, 320 )
+offset = Vector2( 520, 298 )
