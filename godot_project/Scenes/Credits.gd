@@ -17,17 +17,17 @@ func _ready():
 #	pass
 
 func _on_show_signal():
-	var sprite_height = texture.get_height()
-	var viewport_height = get_viewport().size.y
-	var target_height = viewport_height - viewport_height / 100 * Globals.dialog_margin * 2
-	var ratio: float = target_height / sprite_height
-	scale.x = 1
-	scale.y = 1
-	scale.x *= ratio
-	scale.y *= ratio
-	position.x = (get_viewport().size.x - texture.get_width() * scale.x) / 2
-	position.y = (get_viewport().size.y - texture.get_height() * scale.y) / 2
-	Globals.play_boot()
+#	var sprite_height = texture.get_height()
+#	var viewport_height = get_viewport().size.y
+#	var target_height = viewport_height - viewport_height / 100 * Globals.dialog_margin * 2
+#	var ratio: float = target_height / sprite_height
+#	scale.x = 1
+#	scale.y = 1
+#	scale.x *= ratio
+#	scale.y *= ratio
+#	position.x = (get_viewport().size.x - texture.get_width() * scale.x) / 2
+#	position.y = (get_viewport().size.y - texture.get_height() * scale.y) / 2
+#	Globals.play_boot()
 	visible = true
 
 func _on_hide_signal():
