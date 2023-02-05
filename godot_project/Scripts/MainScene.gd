@@ -157,7 +157,9 @@ func _on_start_game_received():
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	GridUtils.compensate_scale_pos(Globals.player.get_node("Sprite"), Globals.current_folder)
 	label_timer.show()
+	label_timer.rect_position.y = get_viewport().size.y / 100 * 93
 	label_nb_salles.show()
+	label_nb_salles.rect_position.y = get_viewport().size.y / 100 * 93
 	Globals.background_music.play()
 
 func _on_restart_received():

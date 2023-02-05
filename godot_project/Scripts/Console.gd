@@ -107,14 +107,25 @@ func _draw():
 	#print("we are drawing lol")
 
 
+func add_to_message_history(message: String):
+	message_history.append(message)
+	if len(message_history) > 27:
+		message_history.remove(0)
+		
+func add_to_command_history(message: String):
+	command_history.append(message)
+	if len(command_history) > 10:
+		command_history.remove(0)
+	add_to_message_history(message)
+
+
 func _on_Input_text_entered(new_text: String) -> void:
 	command_history_index = -1
 	#print("Console text entered: %s" % new_text)
 	if len(new_text) == 0:
 		return
 		
-	command_history.append(new_text)
-	message_history.append(new_text)
+	add_to_command_history(new_text)
 	
 	input_node.clear()
 	
@@ -218,11 +229,12 @@ func send_log(log_text: String, play_sound=true):
 	log_text = get_text(log_text)
 	var messages = log_text.split('\n')
 	for msg in messages:
-		message_history.append(color + msg)
+		add_to_message_history(color + msg)
 		
 func send_error(log_text: String):
 	Globals.play_error()
-	message_history.append("RED:" + log_text)
+	add_to_message_history("RED:" + log_text)
+
 		
 func _on_Input_gui_input(inp: InputEventKey):
 	if inp.is_pressed() and inp.as_text().to_lower() in ['backspace', 'enter']:
