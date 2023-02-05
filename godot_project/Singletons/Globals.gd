@@ -117,10 +117,16 @@ func _process(delta):
 	
 	if timer_principal<=0:
 		game_over()
+	
+	if current_folder==root:
+		victory()
 
 
 
 func game_over():
+	pass
+	
+func victory():
 	pass
 	
 func get_console_width() -> float:

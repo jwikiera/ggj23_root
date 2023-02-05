@@ -118,7 +118,12 @@ func command_passwords():
 		Globals.console.send_log("YELLOW:"+Globals.passwords_dictionnary[Globals.player.list_passwords[i]])
 	if Globals.player.list_passwords.size()==0:
 		Globals.console.send_log("YELLOW:<No known passwords>")
-	
+
+func command_all_passwords():
+	Globals.console.send_log("YELLOW:Known passwords:")
+	for i in range(Globals.passwords_dictionnary.keys().size()):
+		Globals.console.send_log("YELLOW:"+Globals.passwords_dictionnary[Globals.passwords_dictionnary.keys()[i]])
+
 
 func command_cd(password:String):
 	if not Globals.com_enabled('cd'):
