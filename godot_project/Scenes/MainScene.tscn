@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/MainScene.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/square-16.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/crt_shader.gd" type="Script" id=3]
 [ext_resource path="res://Fonts/timer_font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://Assets/Textures/Interface/SUCCESS.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Textures/Interface/GAME_OVER.png" type="Texture" id=6]
+[ext_resource path="res://Assets/UI/SUCCESS.png" type="Texture" id=5]
+[ext_resource path="res://Assets/UI/GAME_OVER.png" type="Texture" id=6]
 [ext_resource path="res://Themes/console_input_theme.tres" type="Theme" id=7]
 [ext_resource path="res://Assets/UI/INTERFACE_vide_sans_grille.png" type="Texture" id=8]
+[ext_resource path="res://Scenes/Credits.gd" type="Script" id=9]
+[ext_resource path="res://Assets/UI/CREDITS.png" type="Texture" id=10]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -362,17 +364,26 @@ margin_bottom = 102.0
 custom_fonts/font = ExtResource( 4 )
 text = "Depth"
 
+[node name="Credits" type="Sprite" parent="."]
+visible = false
+position = Vector2( 952, 528 )
+scale = Vector2( 0.203111, 0.203111 )
+z_index = 10
+texture = ExtResource( 10 )
+script = ExtResource( 9 )
+
 [node name="EcranVictory" type="Sprite" parent="."]
 visible = false
-position = Vector2( 568, 320 )
+position = Vector2( 944, 520 )
+scale = Vector2( 0.195778, 0.195778 )
 z_index = 10
 texture = ExtResource( 5 )
-offset = Vector2( 568, 320 )
 
 [node name="EcranGameOver" type="Sprite" parent="."]
+position = Vector2( 968, 496 )
+scale = Vector2( 0.229778, 0.229778 )
 z_index = 10
 texture = ExtResource( 6 )
-offset = Vector2( 568, 320 )
 
 [node name="MessageFin" type="Label" parent="EcranGameOver"]
 margin_left = 399.0
