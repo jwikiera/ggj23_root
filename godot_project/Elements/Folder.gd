@@ -8,8 +8,8 @@ var children: Array
 
 var position_grid_parent :Vector2 #position dans la grille en tant que parent
 
-var cell_amount_x =10
-var cell_amount_y =8
+var cell_amount_x =7
+var cell_amount_y =5
 
 var grid = []
 
@@ -151,7 +151,7 @@ func addPriviledge(_position:Vector2, _priviledge_level, _protection_level=Eleme
 		child.position_grid = Globals.get_position_randomly(self)
 		children.append(child)
 
-func addTuto(_position:Vector2, command, explanation:String, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
+func addTuto(_position:Vector2, command:String, explanation:String, _protection_level=Element.Protection.JAUNE, _password="", _is_zipped=false):
 
 		var scene_folder = load("res://Elements/TutoFile.tscn")
 		var child = scene_folder.instance()	

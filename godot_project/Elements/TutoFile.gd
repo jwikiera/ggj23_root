@@ -2,7 +2,7 @@ extends Element
 
 class_name TutoFile
 
-var command
+var command:String
 var explanation:String
 # Declare member variables here. Examples:
 # var a = 2

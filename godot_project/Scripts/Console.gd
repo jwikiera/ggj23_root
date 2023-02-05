@@ -109,7 +109,7 @@ func _on_Input_text_entered(new_text: String) -> void:
 	elif tlower == "unzip":
 		Commands.command_unzip()
 	elif tlower == "download":
-		Commands.command_download()
+		Commands.command_download(info1)
 	elif tlower == 'help':
 		Commands.command_help()
 	elif tlower == 'boot':
@@ -154,6 +154,11 @@ func draw_invite():
 	draw_string(Globals.console_font, Vector2(get_console_x(), get_viewport().size.y - Globals.console_font.get_height() / 3), Globals.invite_text)
 	
 func send_log(log_text: String):
+	var color = ""
+	for key in Globals.COLORS.keys():
+		if log_text.begins_with(key + ':'):
+			color = key + ':'
+	log_text = get_text(log_text)
 	var messages = log_text.split('\n')
 	for msg in messages:
-		message_history.append(msg)
+		message_history.append(color + msg)
